@@ -1,0 +1,124 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@import "tailwindcss";
+
+:root {
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1c2430;
+  background: #faf8f3;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --color-background: #faf8f3;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f3f0e8;
+
+  --color-border: #e4dfd2;
+  --color-border-strong: #d3cdbc;
+
+  --color-text-primary: #1c2430;
+  --color-text-secondary: #5b6472;
+  --color-text-tertiary: #8b93a0;
+
+  --color-accent: #3f6d5c;
+  --color-accent-soft: #e4eee9;
+  --color-accent-strong: #2c5245;
+
+  --aqi-good: #5b8a5a;
+  --aqi-moderate: #b99a2e;
+  --aqi-sensitive: #c97a3d;
+  --aqi-unhealthy: #b54b3f;
+  --aqi-very-unhealthy: #7d4a82;
+  --aqi-hazardous: #5c2e2c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--color-background);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  color: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.font-mono {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.page-container {
+  width: min(100% - 40px, 1240px);
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    width: min(100% - 32px, 1240px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

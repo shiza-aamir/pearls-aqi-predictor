@@ -1,0 +1,150 @@
+# =========================================================
+# Python
+# =========================================================
+
+.venv/
+venv/
+env/
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.egg-info/
+.eggs/
+build/
+dist/
+
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+.coverage
+.coverage.*
+htmlcov/
+
+.ipynb_checkpoints/
+
+
+# =========================================================
+# Environment variables / secrets
+# =========================================================
+
+.env
+.env.*
+!.env.example
+*.parquet
+
+# =========================================================
+# IDE / editor
+# =========================================================
+
+.vscode/
+.idea/
+
+*.swp
+*.swo
+
+
+# =========================================================
+# Logs
+# =========================================================
+
+*.log
+logs/
+
+
+# =========================================================
+# Project data
+# =========================================================
+
+data/raw/*
+data/processed/*
+data/historical/*
+data/feature_store/*
+data/live/*
+data/splits/*
+
+# Preserve intentionally committed placeholder files
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/historical/.gitkeep
+!data/feature_store/.gitkeep
+!data/live/.gitkeep
+!data/splits/.gitkeep
+
+# Feast generated feature data
+feature_repo/feature_repo/data/*
+!feature_repo/feature_repo/data/.gitkeep
+
+# =========================================================
+# Trained models / generated artifacts
+# =========================================================
+
+artifacts/
+models/
+
+*.joblib
+*.pkl
+*.pickle
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+
+
+# =========================================================
+# MLflow
+# =========================================================
+
+mlruns/
+mlartifacts/
+
+mlflow.db
+
+
+# =========================================================
+# Feast / local stores
+# =========================================================
+
+*.db
+*.sqlite
+*.sqlite3
+
+feature_repo/.feast/
+
+
+# =========================================================
+# Frontend / Node / Vite
+# =========================================================
+
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+node_modules/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+*.tsbuildinfo
+
+
+# =========================================================
+# Test / coverage output
+# =========================================================
+
+coverage/
+
+
+# =========================================================
+# Operating system
+# =========================================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
