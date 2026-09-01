@@ -8,7 +8,6 @@ from api.schemas.common import (
 )
 from src.core.settings import get_city
 
-
 router = APIRouter(
     prefix="/cities",
     tags=["Cities"],

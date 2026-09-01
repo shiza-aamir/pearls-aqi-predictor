@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import requests
 
@@ -57,7 +57,7 @@ class OpenWeatherClient:
 
         timestamp = datetime.fromtimestamp(
             int(payload["dt"]),
-            tz=timezone.utc,
+            tz=UTC,
         )
 
         main = payload["main"]
@@ -130,7 +130,7 @@ class OpenWeatherClient:
 
         timestamp = datetime.fromtimestamp(
             int(row["dt"]),
-            tz=timezone.utc,
+            tz=UTC,
         )
 
         return PollutionObservation(

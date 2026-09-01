@@ -207,10 +207,8 @@ class AQIPredictionService:
         predicted_category = (
             AQICalculator
             .category_from_aqi(
-                int(
-                    round(
-                        predicted_aqi
-                    )
+                round(
+                    predicted_aqi
                 )
             )
         )

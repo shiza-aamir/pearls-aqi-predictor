@@ -1,7 +1,7 @@
 from src.features.aqi.breakpoints import (
-    AQIBreakpoint,
     PM10_BREAKPOINTS,
     PM25_BREAKPOINTS,
+    AQIBreakpoint,
 )
 from src.features.aqi.calculator import (
     AQICalculator,
@@ -13,11 +13,11 @@ from src.features.aqi.target_builder import (
 )
 
 __all__ = [
+    "PM10_BREAKPOINTS",
+    "PM25_BREAKPOINTS",
     "AQIBreakpoint",
     "AQICalculator",
     "AQIResult",
     "AQITargetBuilder",
     "TargetBuildSummary",
-    "PM25_BREAKPOINTS",
-    "PM10_BREAKPOINTS",
 ]

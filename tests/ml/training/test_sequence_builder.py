@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 
 from src.ml.training.sequence_builder import (
-    AQISequenceBuilder,
     SEQUENCE_FEATURES,
+    AQISequenceBuilder,
 )
 
 

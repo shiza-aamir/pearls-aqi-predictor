@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Iterable
 
 import numpy as np
 import pandas as pd
@@ -102,7 +102,7 @@ class ForecastMonitoringService:
         return (
             AQICalculator
             .category_from_aqi(
-                int(round(clipped))
+                round(clipped)
             )
         )
 
@@ -601,9 +601,7 @@ class ForecastMonitoringService:
                     "horizon_hours": int(
                         horizon
                     ),
-                    "evaluated_forecasts": int(
-                        len(group)
-                    ),
+                    "evaluated_forecasts": len(group),
                     "mae": float(
                         np.mean(
                             errors

@@ -20,7 +20,6 @@ from api.schemas.forecast import (
 )
 from src.services.production_service import AQIProductionService
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -113,8 +112,7 @@ def normalize_city(city: str) -> str:
 def parse_horizon_hours(horizon: str) -> int:
     value = horizon.strip().lower()
 
-    if value.endswith("h"):
-        value = value[:-1]
+    value = value.removesuffix("h")
 
     try:
         hours = int(value)

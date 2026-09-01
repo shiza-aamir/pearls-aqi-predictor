@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from math import floor
 
 from src.features.aqi.breakpoints import (
-    AQIBreakpoint,
     PM10_BREAKPOINTS,
     PM25_BREAKPOINTS,
+    AQIBreakpoint,
 )
 
 

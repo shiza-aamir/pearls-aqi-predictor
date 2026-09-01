@@ -10,7 +10,6 @@ from src.services.production_service import (
     AQIProductionService,
 )
 
-
 CITIES = (
     "Faisalabad",
     "Islamabad",

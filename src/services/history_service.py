@@ -192,9 +192,7 @@ class AQIHistoryService:
                 ].iloc[-1]
             ),
             requested_hours=hours,
-            available_hours=int(
-                len(selected)
-            ),
+            available_hours=len(selected),
             observations=selected,
             aqi_statistics=statistics,
         )

@@ -5,7 +5,6 @@ from fastapi import APIRouter
 from api.core.config import get_api_settings
 from api.schemas.common import HealthResponse
 
-
 router = APIRouter(
     prefix="/health",
     tags=["Health"],

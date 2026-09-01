@@ -24,7 +24,6 @@ from src.services.performance_service import (
     AQIPerformanceService,
 )
 
-
 logger = logging.getLogger(
     __name__
 )

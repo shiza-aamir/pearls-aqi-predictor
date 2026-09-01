@@ -21,7 +21,6 @@ from src.services.model_info_service import (
     AQIModelInfoService,
 )
 
-
 logger = logging.getLogger(
     __name__
 )

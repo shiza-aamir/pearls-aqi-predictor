@@ -823,9 +823,7 @@ class AQIProductionService:
             live_performance=(
                 live_performance
             ),
-            history_rows=int(
-                len(history)
-            ),
+            history_rows=len(history),
             feature_count=int(
                 feature_row.shape[1]
             ),

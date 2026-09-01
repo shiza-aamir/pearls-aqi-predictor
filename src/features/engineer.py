@@ -138,7 +138,7 @@ class AQIFeatureEngineer:
             df[f"aqi_rolling_mean_{window}h"] = (
                 df.groupby("city")["aqi_current"]
                 .transform(
-                    lambda series: series.rolling(
+                    lambda series, window=window: series.rolling(
                         window=window,
                         min_periods=window,
                     ).mean()
@@ -148,7 +148,7 @@ class AQIFeatureEngineer:
             df[f"aqi_rolling_std_{window}h"] = (
                 df.groupby("city")["aqi_current"]
                 .transform(
-                    lambda series: series.rolling(
+                    lambda series, window=window: series.rolling(
                         window=window,
                         min_periods=window,
                     ).std()
@@ -162,7 +162,7 @@ class AQIFeatureEngineer:
                 ] = (
                     df.groupby("city")[pollutant]
                     .transform(
-                        lambda series: series.rolling(
+                        lambda series, window=window: series.rolling(
                             window=window,
                             min_periods=window,
                         ).mean()

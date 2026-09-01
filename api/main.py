@@ -30,7 +30,6 @@ from api.schemas.common import (
     APIInfoResponse,
 )
 
-
 settings = (
     get_api_settings()
 )

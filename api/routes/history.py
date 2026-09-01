@@ -25,7 +25,6 @@ from src.services.history_service import (
     AQIHistoryService,
 )
 
-
 logger = logging.getLogger(
     __name__
 )
