@@ -15,7 +15,6 @@ dependencies = [
     "scipy==1.17.1",
     "scikit-learn==1.9.0",
     "xgboost==3.2.0",
-    "tensorflow==2.21.0",
     "mlflow==3.15.2",
     "feast==0.66.0",
     "shap==0.51.0",
@@ -32,7 +31,20 @@ dependencies = [
 
 
 [project.optional-dependencies]
+training = [
+    "tensorflow==2.21.0",
+]
+
 dev = [
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "ruff==0.16.4",
+    "black==26.5.1",
+    "mypy==2.3.1",
+]
+
+full = [
+    "tensorflow==2.21.0",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "ruff==0.16.4",
