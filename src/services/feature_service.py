@@ -1,28 +1,13 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
-from feast import FeatureStore
 
 from src.features.engineer import AQIFeatureEngineer
 
 
 class AQIFeatureService:
-    FEATURE_REPO_PATH = Path(
-        "feature_repo/feature_repo"
-    )
-
-    FEATURE_VIEW_NAME = "aqi_features"
-
     def __init__(self) -> None:
-        self.store = FeatureStore(
-            repo_path=str(
-                self.FEATURE_REPO_PATH
-            )
-        )
-
         self.feature_columns = (
             AQIFeatureEngineer
             .get_model_feature_columns()
@@ -35,22 +20,15 @@ class AQIFeatureService:
                 f"{len(self.feature_columns)}."
             )
 
-        self.feature_refs = [
-            f"{self.FEATURE_VIEW_NAME}:{column}"
-            for column in self.feature_columns
-        ]
+        self._online_features: dict[
+            str,
+            pd.DataFrame,
+        ] = {}
 
-    def write_online_features(
+    def _prepare_features(
         self,
-        city: str,
-        event_timestamp,
         feature_row: pd.DataFrame,
-    ) -> None:
-        if not city:
-            raise ValueError(
-                "City cannot be empty."
-            )
-
+    ) -> pd.DataFrame:
         if feature_row.empty:
             raise ValueError(
                 "Feature dataframe is empty."
@@ -58,7 +36,7 @@ class AQIFeatureService:
 
         if len(feature_row) != 1:
             raise ValueError(
-                "Online Feast write requires "
+                "Feature service requires "
                 "exactly one feature row."
             )
 
@@ -82,77 +60,47 @@ class AQIFeatureService:
             .astype("float64")
         )
 
-        if (
-            prepared
-            .isnull()
-            .any()
-            .any()
-        ):
-            null_columns = (
-                prepared.columns[
-                    prepared
-                    .isnull()
-                    .any()
-                ]
-                .tolist()
-            )
+        null_columns = (
+            prepared.columns[
+                prepared.isnull().any()
+            ]
+            .tolist()
+        )
 
+        if null_columns:
             raise ValueError(
-                "Cannot write null features "
-                f"to Feast: {null_columns}"
+                "Cannot store null features: "
+                f"{null_columns}"
             )
 
         if not np.isfinite(
             prepared.to_numpy()
         ).all():
             raise ValueError(
-                "Cannot write non-finite "
-                "features to Feast."
+                "Cannot store non-finite "
+                "feature values."
             )
 
-        timestamp = pd.Timestamp(
-            event_timestamp
-        )
+        return prepared
 
-        if timestamp.tzinfo is None:
-            timestamp = (
-                timestamp.tz_localize(
-                    "UTC"
-                )
-            )
-        else:
-            timestamp = (
-                timestamp.tz_convert(
-                    "UTC"
-                )
+    def write_online_features(
+        self,
+        city: str,
+        event_timestamp,
+        feature_row: pd.DataFrame,
+    ) -> None:
+        if not city:
+            raise ValueError(
+                "City cannot be empty."
             )
 
-        feast_row = prepared.copy()
-
-        feast_row.insert(
-            0,
-            "city_id",
-            str(city),
+        prepared = self._prepare_features(
+            feature_row
         )
 
-        feast_row.insert(
-            1,
-            "event_timestamp",
-            timestamp,
-        )
-
-        feast_row.insert(
-            2,
-            "created",
-            timestamp,
-        )
-
-        self.store.write_to_online_store(
-            feature_view_name=(
-                self.FEATURE_VIEW_NAME
-            ),
-            df=feast_row,
-        )
+        self._online_features[
+            city
+        ] = prepared
 
     def get_online_features(
         self,
@@ -163,74 +111,15 @@ class AQIFeatureService:
                 "City cannot be empty."
             )
 
-        response = (
-            self.store.get_online_features(
-                features=self.feature_refs,
-                entity_rows=[
-                    {
-                        "city_id": city,
-                    }
-                ],
-            )
-        )
-
-        result = response.to_df()
-
-        if result.empty:
+        if city not in self._online_features:
             raise ValueError(
                 f"No online features found "
                 f"for city: {city}"
             )
 
-        missing_columns = [
-            column
-            for column in self.feature_columns
-            if column not in result.columns
-        ]
-
-        if missing_columns:
-            raise ValueError(
-                "Feast response is missing "
-                f"model features: "
-                f"{missing_columns}"
-            )
-
-        model_features = (
-            result[
-                self.feature_columns
+        return (
+            self._online_features[
+                city
             ]
             .copy()
-            .astype(float)
         )
-
-        if (
-            model_features
-            .isnull()
-            .any()
-            .any()
-        ):
-            null_columns = (
-                model_features
-                .columns[
-                    model_features
-                    .isnull()
-                    .any()
-                ]
-                .tolist()
-            )
-
-            raise ValueError(
-                "Feast returned null values "
-                f"for features: "
-                f"{null_columns}"
-            )
-
-        if not np.isfinite(
-            model_features.to_numpy()
-        ).all():
-            raise ValueError(
-                "Feast returned non-finite "
-                "feature values."
-            )
-
-        return model_features

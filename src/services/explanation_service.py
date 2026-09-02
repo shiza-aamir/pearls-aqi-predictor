@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import mlflow
-import mlflow.xgboost
 import numpy as np
 import pandas as pd
-import shap
+import xgboost as xgb
 
-from src.features.engineer import AQIFeatureEngineer
+from src.services.prediction_service import (
+    AQIPredictionService,
+)
 
 
 @dataclass(frozen=True)
@@ -28,24 +28,14 @@ class AQIExplanation:
 
 
 class AQIExplanationService:
-    TRACKING_URI = "sqlite:///mlflow.db"
-
-    MODEL_NAME = "pearls-aqi-xgboost"
-
-    HORIZON_ALIASES = {
-        "24h": "champion-24h",
-        "48h": "champion-48h",
-        "72h": "champion-72h",
-    }
-
     def __init__(self) -> None:
-        mlflow.set_tracking_uri(
-            self.TRACKING_URI
+        self.prediction_service = (
+            AQIPredictionService()
         )
 
         self.feature_columns = (
-            AQIFeatureEngineer
-            .get_model_feature_columns()
+            self.prediction_service
+            .feature_columns
         )
 
         if len(self.feature_columns) != 56:
@@ -53,115 +43,38 @@ class AQIExplanationService:
                 "Expected exactly 56 model features."
             )
 
-        self._models = {}
-        self._explainers = {}
-
-    def _validate_horizon(
-        self,
-        horizon: str,
-    ) -> str:
-        if horizon not in self.HORIZON_ALIASES:
-            raise ValueError(
-                f"Unsupported horizon: {horizon}. "
-                f"Expected one of "
-                f"{list(self.HORIZON_ALIASES)}."
-            )
-
-        return self.HORIZON_ALIASES[horizon]
-
-    def get_model(
-        self,
-        horizon: str,
-    ):
-        if horizon in self._models:
-            return self._models[horizon]
-
-        alias = self._validate_horizon(
-            horizon
-        )
-
-        model_uri = (
-            f"models:/"
-            f"{self.MODEL_NAME}"
-            f"@{alias}"
-        )
-
-        model = mlflow.xgboost.load_model(
-            model_uri
-        )
-
-        self._models[horizon] = model
-
-        return model
-
-    def get_explainer(
-        self,
-        horizon: str,
-    ) -> shap.TreeExplainer:
-        if horizon in self._explainers:
-            return self._explainers[horizon]
-
-        model = self.get_model(
-            horizon
-        )
-
-        explainer = shap.TreeExplainer(
-            model
-        )
-
-        self._explainers[horizon] = (
-            explainer
-        )
-
-        return explainer
-
     def prepare_features(
         self,
         feature_data: pd.DataFrame,
     ) -> pd.DataFrame:
-        if feature_data.empty:
-            raise ValueError(
-                "Feature dataframe is empty."
+        return (
+            self.prediction_service
+            .get_prepared_features(
+                feature_data
             )
-
-        missing = [
-            column
-            for column in self.feature_columns
-            if column not in feature_data.columns
-        ]
-
-        if missing:
-            raise ValueError(
-                f"Missing model features: {missing}"
-            )
-
-        prepared = (
-            feature_data[
-                self.feature_columns
-            ]
-            .copy()
-            .astype(float)
         )
 
-        if (
-            prepared
-            .isnull()
-            .any()
-            .any()
+    def _get_booster(
+        self,
+        horizon: str,
+    ) -> xgb.Booster:
+        model = (
+            self.prediction_service
+            .get_model(
+                horizon
+            )
+        )
+
+        if not hasattr(
+            model,
+            "get_booster",
         ):
-            raise ValueError(
-                "Feature dataframe contains nulls."
+            raise RuntimeError(
+                "Production explanation requires "
+                "an XGBoost model."
             )
 
-        if not np.isfinite(
-            prepared.to_numpy()
-        ).all():
-            raise ValueError(
-                "Feature dataframe contains "
-                "non-finite values."
-            )
-
-        return prepared
+        return model.get_booster()
 
     def shap_values(
         self,
@@ -176,32 +89,61 @@ class AQIExplanationService:
             feature_data
         )
 
-        explainer = self.get_explainer(
+        booster = self._get_booster(
             horizon
         )
 
-        values = explainer.shap_values(
-            prepared
+        dmatrix = xgb.DMatrix(
+            prepared,
+            feature_names=self.feature_columns,
         )
 
-        values = np.asarray(
-            values,
+        contribution_values = (
+            booster.predict(
+                dmatrix,
+                pred_contribs=True,
+            )
+        )
+
+        contribution_values = np.asarray(
+            contribution_values,
             dtype=float,
         )
 
-        if values.shape != prepared.shape:
-            raise RuntimeError(
-                "Unexpected SHAP output shape. "
-                f"Features={prepared.shape}, "
-                f"SHAP={values.shape}."
-            )
-
-        expected_value = np.asarray(
-            explainer.expected_value
+        expected_columns = (
+            len(self.feature_columns) + 1
         )
 
+        if (
+            contribution_values.ndim != 2
+            or contribution_values.shape[1]
+            != expected_columns
+        ):
+            raise RuntimeError(
+                "Unexpected XGBoost contribution "
+                "output shape: "
+                f"{contribution_values.shape}"
+            )
+
+        values = contribution_values[
+            :,
+            :-1,
+        ]
+
+        base_values = contribution_values[
+            :,
+            -1,
+        ]
+
+        if values.shape != prepared.shape:
+            raise RuntimeError(
+                "Unexpected explanation shape. "
+                f"Features={prepared.shape}, "
+                f"Contributions={values.shape}."
+            )
+
         base_value = float(
-            expected_value.reshape(-1)[0]
+            base_values[0]
         )
 
         return (
@@ -236,8 +178,11 @@ class AQIExplanationService:
             horizon,
         )
 
-        model = self.get_model(
-            horizon
+        model = (
+            self.prediction_service
+            .get_model(
+                horizon
+            )
         )
 
         prediction = float(
@@ -255,30 +200,30 @@ class AQIExplanationService:
         contributions = []
 
         for index in order[:top_n]:
-            shap_value = float(
+            contribution_value = float(
                 row_values[index]
             )
 
             contributions.append(
                 FeatureContribution(
-                    feature=(
-                        self.feature_columns[
-                            index
-                        ]
-                    ),
+                    feature=self.feature_columns[
+                        index
+                    ],
                     feature_value=float(
                         prepared.iloc[
                             0,
                             index,
                         ]
                     ),
-                    shap_value=shap_value,
+                    shap_value=(
+                        contribution_value
+                    ),
                     direction=(
                         "increase"
-                        if shap_value > 0
+                        if contribution_value > 0
                         else (
                             "decrease"
-                            if shap_value < 0
+                            if contribution_value < 0
                             else "neutral"
                         )
                     ),

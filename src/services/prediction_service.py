@@ -5,8 +5,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-import mlflow
-import mlflow.xgboost
 import numpy as np
 import pandas as pd
 import xgboost as xgb
@@ -25,8 +23,6 @@ class AQIPrediction:
 
 
 class AQIPredictionService:
-    DEFAULT_TRACKING_URI = "sqlite:///mlflow.db"
-
     MODEL_NAME = "pearls-aqi-xgboost"
 
     HORIZON_ALIASES = {
@@ -36,49 +32,28 @@ class AQIPredictionService:
     }
 
     BUNDLED_MODEL_PATHS = {
-        "24h": Path(
-            "models/production/xgboost_24h.ubj"
-        ),
-        "48h": Path(
-            "models/production/xgboost_48h.ubj"
-        ),
-        "72h": Path(
-            "models/production/xgboost_72h.ubj"
-        ),
+        "24h": Path("models/production/xgboost_24h.ubj"),
+        "48h": Path("models/production/xgboost_48h.ubj"),
+        "72h": Path("models/production/xgboost_72h.ubj"),
     }
 
     def __init__(self) -> None:
-        self.model_source = (
-            os.getenv(
-                "MODEL_SOURCE",
-                "mlflow",
-            )
-            .strip()
-            .lower()
-        )
+        self.model_source = os.getenv(
+            "MODEL_SOURCE",
+            "bundled",
+        ).strip().lower()
 
         if self.model_source not in {
-            "mlflow",
             "bundled",
+            "mlflow",
         }:
             raise ValueError(
                 "MODEL_SOURCE must be either "
-                "'mlflow' or 'bundled'."
-            )
-
-        if self.model_source == "mlflow":
-            tracking_uri = os.getenv(
-                "MLFLOW_TRACKING_URI",
-                self.DEFAULT_TRACKING_URI,
-            ).strip()
-
-            mlflow.set_tracking_uri(
-                tracking_uri
+                "'bundled' or 'mlflow'."
             )
 
         self.feature_columns = (
-            AQIFeatureEngineer
-            .get_model_feature_columns()
+            AQIFeatureEngineer.get_model_feature_columns()
         )
 
         if len(self.feature_columns) != 56:
@@ -101,17 +76,30 @@ class AQIPredictionService:
                 f"{list(self.HORIZON_ALIASES)}"
             )
 
-        return self.HORIZON_ALIASES[
-            horizon
-        ]
+        return self.HORIZON_ALIASES[horizon]
 
     def _load_mlflow_model(
         self,
         horizon: str,
     ) -> Any:
-        alias = self._get_alias(
-            horizon
-        )
+        try:
+            import mlflow
+            import mlflow.xgboost
+        except ImportError as exc:
+            raise RuntimeError(
+                "MLflow model loading was requested, "
+                "but MLflow is not installed. "
+                "Use MODEL_SOURCE=bundled for deployment."
+            ) from exc
+
+        tracking_uri = os.getenv(
+            "MLFLOW_TRACKING_URI",
+            "sqlite:///mlflow.db",
+        ).strip()
+
+        mlflow.set_tracking_uri(tracking_uri)
+
+        alias = self._get_alias(horizon)
 
         model_uri = (
             f"models:/"
@@ -126,17 +114,15 @@ class AQIPredictionService:
     def _load_bundled_model(
         self,
         horizon: str,
-    ) -> Any:
+    ) -> xgb.XGBRegressor:
         if horizon not in self.BUNDLED_MODEL_PATHS:
             raise ValueError(
                 f"Unsupported forecast horizon: {horizon}."
             )
 
-        model_path = (
-            self.BUNDLED_MODEL_PATHS[
-                horizon
-            ]
-        )
+        model_path = self.BUNDLED_MODEL_PATHS[
+            horizon
+        ]
 
         if not model_path.exists():
             raise FileNotFoundError(
@@ -146,9 +132,7 @@ class AQIPredictionService:
 
         model = xgb.XGBRegressor()
 
-        model.load_model(
-            model_path
-        )
+        model.load_model(model_path)
 
         return model
 
@@ -157,22 +141,18 @@ class AQIPredictionService:
         horizon: str,
     ) -> Any:
         if horizon in self._models:
-            return self._models[
-                horizon
-            ]
+            return self._models[horizon]
 
-        if self.model_source == "bundled":
-            model = self._load_bundled_model(
-                horizon
-            )
-        else:
+        if self.model_source == "mlflow":
             model = self._load_mlflow_model(
                 horizon
             )
+        else:
+            model = self._load_bundled_model(
+                horizon
+            )
 
-        self._models[
-            horizon
-        ] = model
+        self._models[horizon] = model
 
         return model
 
@@ -194,8 +174,7 @@ class AQIPredictionService:
         missing_columns = [
             column
             for column in self.feature_columns
-            if column
-            not in feature_row.columns
+            if column not in feature_row.columns
         ]
 
         if missing_columns:
@@ -225,10 +204,8 @@ class AQIPredictionService:
                 f"features: {null_columns}"
             )
 
-        values = prepared.to_numpy()
-
         if not np.isfinite(
-            values
+            prepared.to_numpy()
         ).all():
             raise ValueError(
                 "Non-finite values detected "
@@ -237,15 +214,31 @@ class AQIPredictionService:
 
         return prepared
 
+    def get_prepared_features(
+        self,
+        feature_row: pd.DataFrame,
+    ) -> pd.DataFrame:
+        return self._prepare_features(
+            feature_row
+        )
+
+    def get_model(
+        self,
+        horizon: str,
+    ) -> Any:
+        self._get_alias(horizon)
+
+        return self._get_model(
+            horizon
+        )
+
     def predict(
         self,
         feature_row: pd.DataFrame,
         horizon: str,
     ) -> AQIPrediction:
-        prepared = (
-            self._prepare_features(
-                feature_row
-            )
+        prepared = self._prepare_features(
+            feature_row
         )
 
         model = self._get_model(
@@ -284,11 +277,8 @@ class AQIPredictionService:
         )
 
         predicted_category = (
-            AQICalculator
-            .category_from_aqi(
-                round(
-                    predicted_aqi
-                )
+            AQICalculator.category_from_aqi(
+                round(predicted_aqi)
             )
         )
 
@@ -299,9 +289,7 @@ class AQIPredictionService:
         return AQIPrediction(
             horizon=horizon,
             predicted_aqi=predicted_aqi,
-            predicted_category=(
-                predicted_category
-            ),
+            predicted_category=predicted_category,
             model_name=self.MODEL_NAME,
             model_alias=alias,
         )

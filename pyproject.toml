@@ -2,7 +2,6 @@
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
-
 [project]
 name = "pearls-aqi-predictor"
 version = "0.1.0"
@@ -15,10 +14,6 @@ dependencies = [
     "scipy==1.17.1",
     "scikit-learn==1.9.0",
     "xgboost==3.2.0",
-    "mlflow==3.15.2",
-    "feast==0.66.0",
-    "shap==0.51.0",
-    "matplotlib==3.11.1",
     "pyarrow==25.0.1",
     "fastapi==0.141.1",
     "uvicorn==0.52.4",
@@ -29,10 +24,18 @@ dependencies = [
     "python-dotenv==1.2.3",
 ]
 
-
 [project.optional-dependencies]
+mlops = [
+    "mlflow==3.15.2",
+    "feast==0.66.0",
+    "shap==0.51.0",
+]
+
 training = [
     "tensorflow==2.21.0",
+    "mlflow==3.15.2",
+    "feast==0.66.0",
+    "shap==0.51.0",
 ]
 
 dev = [
@@ -45,6 +48,9 @@ dev = [
 
 full = [
     "tensorflow==2.21.0",
+    "mlflow==3.15.2",
+    "feast==0.66.0",
+    "shap==0.51.0",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "ruff==0.16.4",
@@ -52,11 +58,9 @@ full = [
     "mypy==2.3.1",
 ]
 
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-
 
 [tool.ruff]
 line-length = 100
@@ -69,10 +73,8 @@ ignore = [
     "RUF012",
 ]
 
-
 [tool.black]
 line-length = 100
-
 
 [tool.mypy]
 python_version = "3.11"
