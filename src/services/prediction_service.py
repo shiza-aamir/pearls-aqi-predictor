@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import mlflow
 import mlflow.xgboost
 import numpy as np
 import pandas as pd
+import xgboost as xgb
 
 from src.features.aqi.calculator import AQICalculator
 from src.features.engineer import AQIFeatureEngineer
@@ -22,7 +25,7 @@ class AQIPrediction:
 
 
 class AQIPredictionService:
-    TRACKING_URI = "sqlite:///mlflow.db"
+    DEFAULT_TRACKING_URI = "sqlite:///mlflow.db"
 
     MODEL_NAME = "pearls-aqi-xgboost"
 
@@ -32,10 +35,46 @@ class AQIPredictionService:
         "72h": "champion-72h",
     }
 
+    BUNDLED_MODEL_PATHS = {
+        "24h": Path(
+            "models/production/xgboost_24h.ubj"
+        ),
+        "48h": Path(
+            "models/production/xgboost_48h.ubj"
+        ),
+        "72h": Path(
+            "models/production/xgboost_72h.ubj"
+        ),
+    }
+
     def __init__(self) -> None:
-        mlflow.set_tracking_uri(
-            self.TRACKING_URI
+        self.model_source = (
+            os.getenv(
+                "MODEL_SOURCE",
+                "mlflow",
+            )
+            .strip()
+            .lower()
         )
+
+        if self.model_source not in {
+            "mlflow",
+            "bundled",
+        }:
+            raise ValueError(
+                "MODEL_SOURCE must be either "
+                "'mlflow' or 'bundled'."
+            )
+
+        if self.model_source == "mlflow":
+            tracking_uri = os.getenv(
+                "MLFLOW_TRACKING_URI",
+                self.DEFAULT_TRACKING_URI,
+            ).strip()
+
+            mlflow.set_tracking_uri(
+                tracking_uri
+            )
 
         self.feature_columns = (
             AQIFeatureEngineer
@@ -66,15 +105,10 @@ class AQIPredictionService:
             horizon
         ]
 
-    def _get_model(
+    def _load_mlflow_model(
         self,
         horizon: str,
     ) -> Any:
-        if horizon in self._models:
-            return self._models[
-                horizon
-            ]
-
         alias = self._get_alias(
             horizon
         )
@@ -85,11 +119,56 @@ class AQIPredictionService:
             f"@{alias}"
         )
 
-        model = (
-            mlflow.xgboost.load_model(
-                model_uri
-            )
+        return mlflow.xgboost.load_model(
+            model_uri
         )
+
+    def _load_bundled_model(
+        self,
+        horizon: str,
+    ) -> Any:
+        if horizon not in self.BUNDLED_MODEL_PATHS:
+            raise ValueError(
+                f"Unsupported forecast horizon: {horizon}."
+            )
+
+        model_path = (
+            self.BUNDLED_MODEL_PATHS[
+                horizon
+            ]
+        )
+
+        if not model_path.exists():
+            raise FileNotFoundError(
+                "Bundled production model was "
+                f"not found: {model_path}"
+            )
+
+        model = xgb.XGBRegressor()
+
+        model.load_model(
+            model_path
+        )
+
+        return model
+
+    def _get_model(
+        self,
+        horizon: str,
+    ) -> Any:
+        if horizon in self._models:
+            return self._models[
+                horizon
+            ]
+
+        if self.model_source == "bundled":
+            model = self._load_bundled_model(
+                horizon
+            )
+        else:
+            model = self._load_mlflow_model(
+                horizon
+            )
 
         self._models[
             horizon
