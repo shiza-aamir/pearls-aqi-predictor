@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from datetime import datetime
@@ -24,10 +25,6 @@ class ForecastRecord:
 
 
 class ForecastMonitoringService:
-    LEDGER_PATH = Path(
-        "data/live/forecast_ledger.parquet"
-    )
-
     CATEGORY_ORDER = [
         "Good",
         "Moderate",
@@ -62,12 +59,23 @@ class ForecastMonitoringService:
         self.ledger_path = (
             Path(ledger_path)
             if ledger_path is not None
-            else self.LEDGER_PATH
+            else self._resolve_ledger_path()
         )
 
         self.ledger_path.parent.mkdir(
             parents=True,
             exist_ok=True,
+        )
+
+    @staticmethod
+    def _resolve_ledger_path() -> Path:
+        if os.getenv("VERCEL"):
+            return Path(
+                "/tmp/pearls-aqi/forecast_ledger.parquet"
+            )
+
+        return Path(
+            "data/live/forecast_ledger.parquet"
         )
 
     @staticmethod
@@ -297,8 +305,6 @@ class ForecastMonitoringService:
         if new_df.empty:
             return ledger
 
-        # Avoid concatenating a completely empty ledger.
-        # This also removes the pandas FutureWarning.
         if ledger.empty:
             combined = new_df.copy()
         else:
