@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -14,10 +15,6 @@ from src.data.clients.openweather_client import (
 
 
 class LiveHistoryService:
-    HISTORY_ROOT = Path(
-        "data/live/history"
-    )
-
     BOOTSTRAP_HOURS = 120
     MAX_HISTORY_HOURS = 168
 
@@ -36,9 +33,24 @@ class LiveHistoryService:
             or OpenWeatherClient()
         )
 
-        self.HISTORY_ROOT.mkdir(
+        self.history_root = (
+            self._resolve_history_root()
+        )
+
+        self.history_root.mkdir(
             parents=True,
             exist_ok=True,
+        )
+
+    @staticmethod
+    def _resolve_history_root() -> Path:
+        if os.getenv("VERCEL"):
+            return Path(
+                "/tmp/pearls-aqi/history"
+            )
+
+        return Path(
+            "data/live/history"
         )
 
     def bootstrap(
@@ -235,12 +247,6 @@ class LiveHistoryService:
             recovered["timestamp"].max()
         )
 
-        # Preserve higher-priority OpenWeather observations
-        # only when they overlap the newly recovered window.
-        #
-        # Old live observations outside this window must not
-        # be retained because they can create a discontinuity
-        # before the fresh Open-Meteo history.
         live_rows = existing.loc[
             (
                 existing["source"]
@@ -511,9 +517,8 @@ class LiveHistoryService:
             index=False,
         )
 
-    @classmethod
     def get_history_path(
-        cls,
+        self,
         city_name: str,
     ) -> Path:
         safe_name = (
@@ -523,7 +528,7 @@ class LiveHistoryService:
         )
 
         return (
-            cls.HISTORY_ROOT
+            self.history_root
             / f"{safe_name}.parquet"
         )
 
