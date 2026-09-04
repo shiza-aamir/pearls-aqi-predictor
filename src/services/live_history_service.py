@@ -67,6 +67,22 @@ class LiveHistoryService:
             )
         )
 
+        history["timestamp"] = pd.to_datetime(
+            history["timestamp"],
+            utc=True,
+            errors="raise",
+        )
+
+        history = (
+            history
+            .sort_values("timestamp")
+            .drop_duplicates(
+                subset=["timestamp"],
+                keep="last",
+            )
+            .reset_index(drop=True)
+        )
+
         self.validate_history(
             history
         )
@@ -129,7 +145,7 @@ class LiveHistoryService:
                 f"{weather_hour} vs {pollution_hour}."
             )
 
-        latest_hour = (
+        latest_hour = self._hour_bucket(
             history["timestamp"].max()
         )
 
@@ -179,6 +195,12 @@ class LiveHistoryService:
             )
         )
 
+        if recovered.empty:
+            raise RuntimeError(
+                "Open-Meteo returned no observations "
+                f"while recovering history for {city_name}."
+            )
+
         existing = (
             existing_history.copy()
         )
@@ -195,11 +217,43 @@ class LiveHistoryService:
             errors="raise",
         )
 
-        # Existing OpenWeather observations should win over
-        # bootstrap observations for the same hour.
+        recovered = (
+            recovered
+            .sort_values("timestamp")
+            .drop_duplicates(
+                subset=["timestamp"],
+                keep="last",
+            )
+            .reset_index(drop=True)
+        )
+
+        recovered_start = (
+            recovered["timestamp"].min()
+        )
+
+        recovered_end = (
+            recovered["timestamp"].max()
+        )
+
+        # Preserve higher-priority OpenWeather observations
+        # only when they overlap the newly recovered window.
+        #
+        # Old live observations outside this window must not
+        # be retained because they can create a discontinuity
+        # before the fresh Open-Meteo history.
         live_rows = existing.loc[
-            existing["source"]
-            == "openweather_live"
+            (
+                existing["source"]
+                == "openweather_live"
+            )
+            & (
+                existing["timestamp"]
+                >= recovered_start
+            )
+            & (
+                existing["timestamp"]
+                <= recovered_end
+            )
         ].copy()
 
         combined = pd.concat(
@@ -212,6 +266,7 @@ class LiveHistoryService:
 
         source_priority = {
             "open_meteo_bootstrap": 0,
+            "openmeteo_bootstrap": 0,
             "openweather_live": 1,
         }
 
@@ -278,7 +333,9 @@ class LiveHistoryService:
                 "Weather/pollution hour mismatch."
             )
 
-        history = history.copy()
+        history = (
+            history.copy()
+        )
 
         history["timestamp"] = pd.to_datetime(
             history["timestamp"],
@@ -286,7 +343,7 @@ class LiveHistoryService:
             errors="raise",
         )
 
-        latest_hour = (
+        latest_hour = self._hour_bucket(
             history["timestamp"].max()
         )
 
@@ -308,14 +365,30 @@ class LiveHistoryService:
                     "city": city.name,
                     "latitude": city.latitude,
                     "longitude": city.longitude,
-                    "temperature": weather.temperature,
-                    "humidity": weather.humidity,
-                    "precipitation": weather.precipitation,
-                    "wind_speed": weather.wind_speed,
-                    "wind_direction": weather.wind_direction,
-                    "pressure": weather.pressure,
-                    "pm2_5": pollution.pm2_5,
-                    "pm10": pollution.pm10,
+                    "temperature": (
+                        weather.temperature
+                    ),
+                    "humidity": (
+                        weather.humidity
+                    ),
+                    "precipitation": (
+                        weather.precipitation
+                    ),
+                    "wind_speed": (
+                        weather.wind_speed
+                    ),
+                    "wind_direction": (
+                        weather.wind_direction
+                    ),
+                    "pressure": (
+                        weather.pressure
+                    ),
+                    "pm2_5": (
+                        pollution.pm2_5
+                    ),
+                    "pm10": (
+                        pollution.pm10
+                    ),
                     "carbon_monoxide": (
                         pollution.carbon_monoxide
                     ),
@@ -325,8 +398,12 @@ class LiveHistoryService:
                     "sulphur_dioxide": (
                         pollution.sulphur_dioxide
                     ),
-                    "ozone": pollution.ozone,
-                    "source": "openweather_live",
+                    "ozone": (
+                        pollution.ozone
+                    ),
+                    "source": (
+                        "openweather_live"
+                    ),
                 }
             ]
         )
@@ -390,6 +467,12 @@ class LiveHistoryService:
             errors="raise",
         )
 
+        history = (
+            history
+            .sort_values("timestamp")
+            .reset_index(drop=True)
+        )
+
         self.validate_history(
             history
         )
@@ -401,6 +484,22 @@ class LiveHistoryService:
         city_name: str,
         history: pd.DataFrame,
     ) -> None:
+        history = (
+            history.copy()
+        )
+
+        history["timestamp"] = pd.to_datetime(
+            history["timestamp"],
+            utc=True,
+            errors="raise",
+        )
+
+        history = (
+            history
+            .sort_values("timestamp")
+            .reset_index(drop=True)
+        )
+
         self.validate_history(
             history
         )
@@ -522,12 +621,65 @@ class LiveHistoryService:
             .dropna()
         )
 
-        if (
+        invalid_gaps = (
             gaps
             != pd.Timedelta(hours=1)
-        ).any():
+        )
+
+        if invalid_gaps.any():
+            invalid_indices = (
+                gaps[invalid_gaps]
+                .index
+                .tolist()
+            )
+
+            details: list[str] = []
+
+            sorted_timestamps = (
+                timestamps
+                .sort_values()
+                .reset_index(drop=True)
+            )
+
+            sorted_gaps = (
+                sorted_timestamps
+                .diff()
+            )
+
+            for index in (
+                sorted_gaps[
+                    sorted_gaps
+                    != pd.Timedelta(hours=1)
+                ]
+                .dropna()
+                .index[:5]
+            ):
+                previous_timestamp = (
+                    sorted_timestamps.iloc[
+                        index - 1
+                    ]
+                )
+
+                current_timestamp = (
+                    sorted_timestamps.iloc[
+                        index
+                    ]
+                )
+
+                details.append(
+                    f"{previous_timestamp} -> "
+                    f"{current_timestamp}"
+                )
+
+            detail_text = (
+                "; ".join(details)
+                if details
+                else str(invalid_indices[:5])
+            )
+
             raise ValueError(
-                "History is not continuous hourly data."
+                "History is not continuous hourly data. "
+                f"Detected gap(s): {detail_text}"
             )
 
         non_negative_columns = [
