@@ -43,8 +43,16 @@ class LiveHistoryService:
         )
 
     @staticmethod
-    def _resolve_history_root() -> Path:
-        if os.getenv("VERCEL"):
+    def _is_vercel() -> bool:
+        return bool(
+            os.getenv("VERCEL")
+        )
+
+    @classmethod
+    def _resolve_history_root(
+        cls,
+    ) -> Path:
+        if cls._is_vercel():
             return Path(
                 "/tmp/pearls-aqi/history"
             )
@@ -463,9 +471,14 @@ class LiveHistoryService:
                 f"{city_name}. Bootstrap it first."
             )
 
-        history = pd.read_parquet(
-            path
-        )
+        if path.suffix.lower() == ".csv":
+            history = pd.read_csv(
+                path
+            )
+        else:
+            history = pd.read_parquet(
+                path
+            )
 
         history["timestamp"] = pd.to_datetime(
             history["timestamp"],
@@ -510,12 +523,20 @@ class LiveHistoryService:
             history
         )
 
-        history.to_parquet(
-            self.get_history_path(
-                city_name
-            ),
-            index=False,
+        path = self.get_history_path(
+            city_name
         )
+
+        if path.suffix.lower() == ".csv":
+            history.to_csv(
+                path,
+                index=False,
+            )
+        else:
+            history.to_parquet(
+                path,
+                index=False,
+            )
 
     def get_history_path(
         self,
@@ -527,9 +548,15 @@ class LiveHistoryService:
             .replace(" ", "_")
         )
 
+        suffix = (
+            ".csv"
+            if self._is_vercel()
+            else ".parquet"
+        )
+
         return (
             self.history_root
-            / f"{safe_name}.parquet"
+            / f"{safe_name}{suffix}"
         )
 
     @staticmethod

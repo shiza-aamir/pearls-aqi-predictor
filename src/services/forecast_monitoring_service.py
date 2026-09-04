@@ -68,14 +68,24 @@ class ForecastMonitoringService:
         )
 
     @staticmethod
-    def _resolve_ledger_path() -> Path:
-        if os.getenv("VERCEL"):
+    def _is_vercel() -> bool:
+        return bool(
+            os.getenv("VERCEL")
+        )
+
+    @classmethod
+    def _resolve_ledger_path(
+        cls,
+    ) -> Path:
+        if cls._is_vercel():
             return Path(
-                "/tmp/pearls-aqi/forecast_ledger.parquet"
+                "/tmp/pearls-aqi/"
+                "forecast_ledger.csv"
             )
 
         return Path(
-            "data/live/forecast_ledger.parquet"
+            "data/live/"
+            "forecast_ledger.parquet"
         )
 
     @staticmethod
@@ -127,9 +137,19 @@ class ForecastMonitoringService:
         if not self.ledger_path.exists():
             return self._empty_ledger()
 
-        df = pd.read_parquet(
+        if (
             self.ledger_path
-        )
+            .suffix
+            .lower()
+            == ".csv"
+        ):
+            df = pd.read_csv(
+                self.ledger_path
+            )
+        else:
+            df = pd.read_parquet(
+                self.ledger_path
+            )
 
         for column in self.REQUIRED_LEDGER_COLUMNS:
             if column not in df.columns:
@@ -169,10 +189,21 @@ class ForecastMonitoringService:
             drop=True
         )
 
-        df.to_parquet(
-            self.ledger_path,
-            index=False,
-        )
+        if (
+            self.ledger_path
+            .suffix
+            .lower()
+            == ".csv"
+        ):
+            df.to_csv(
+                self.ledger_path,
+                index=False,
+            )
+        else:
+            df.to_parquet(
+                self.ledger_path,
+                index=False,
+            )
 
     def record_forecasts(
         self,
