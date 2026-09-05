@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 import pandas as pd
 import requests
 
@@ -15,7 +17,9 @@ class OpenMeteoClient:
         "https://air-quality-api.open-meteo.com/v1/air-quality"
     )
 
-    REQUEST_TIMEOUT_SECONDS = 30
+    REQUEST_TIMEOUT_SECONDS = 60
+    MAX_RETRIES = 3
+    RETRY_BACKOFF_SECONDS = 3
 
     WEATHER_VARIABLES = [
         "temperature_2m",
@@ -98,7 +102,6 @@ class OpenMeteoClient:
             .reset_index(drop=True)
         )
 
-        # Keep only fully completed UTC hours.
         now_hour = pd.Timestamp.now(
             tz="UTC"
         ).floor("h")
@@ -113,7 +116,6 @@ class OpenMeteoClient:
                 f"observations were returned; expected at least {hours}."
             )
 
-        # Retain the latest requested completed hours.
         merged = (
             merged.tail(hours)
             .reset_index(drop=True)
@@ -126,13 +128,109 @@ class OpenMeteoClient:
 
         return merged
 
+    def _request(
+        self,
+        url: str,
+        params: dict,
+        source_name: str,
+    ) -> dict:
+        last_error: Exception | None = None
+
+        for attempt in range(
+            1,
+            self.MAX_RETRIES + 1,
+        ):
+            try:
+                response = requests.get(
+                    url,
+                    params=params,
+                    timeout=self.REQUEST_TIMEOUT_SECONDS,
+                )
+
+                response.raise_for_status()
+
+                return response.json()
+
+            except (
+                requests.Timeout,
+                requests.ConnectionError,
+            ) as exc:
+                last_error = exc
+
+                if attempt == self.MAX_RETRIES:
+                    break
+
+                wait_seconds = (
+                    self.RETRY_BACKOFF_SECONDS
+                    * attempt
+                )
+
+                print(
+                    f"[RETRY] {source_name} request "
+                    f"failed on attempt "
+                    f"{attempt}/{self.MAX_RETRIES}: "
+                    f"{type(exc).__name__}. "
+                    f"Retrying in {wait_seconds}s..."
+                )
+
+                time.sleep(
+                    wait_seconds
+                )
+
+            except requests.HTTPError as exc:
+                status_code = (
+                    exc.response.status_code
+                    if exc.response is not None
+                    else None
+                )
+
+                retryable = (
+                    status_code == 429
+                    or (
+                        status_code is not None
+                        and status_code >= 500
+                    )
+                )
+
+                if not retryable:
+                    raise
+
+                last_error = exc
+
+                if attempt == self.MAX_RETRIES:
+                    break
+
+                wait_seconds = (
+                    self.RETRY_BACKOFF_SECONDS
+                    * attempt
+                )
+
+                print(
+                    f"[RETRY] {source_name} returned "
+                    f"HTTP {status_code} on attempt "
+                    f"{attempt}/{self.MAX_RETRIES}. "
+                    f"Retrying in {wait_seconds}s..."
+                )
+
+                time.sleep(
+                    wait_seconds
+                )
+
+            except requests.RequestException:
+                raise
+
+        raise RuntimeError(
+            f"{source_name} request failed after "
+            f"{self.MAX_RETRIES} attempts."
+        ) from last_error
+
     def _get_weather(
         self,
         city: CityConfig,
         hours: int,
     ) -> pd.DataFrame:
-        response = requests.get(
-            self.WEATHER_URL,
+        payload = self._request(
+            url=self.WEATHER_URL,
             params={
                 "latitude": city.latitude,
                 "longitude": city.longitude,
@@ -144,20 +242,22 @@ class OpenMeteoClient:
                 "timezone": "UTC",
                 "wind_speed_unit": "ms",
             },
-            timeout=self.REQUEST_TIMEOUT_SECONDS,
+            source_name=(
+                f"Open-Meteo weather for {city.name}"
+            ),
         )
-
-        response.raise_for_status()
-        payload = response.json()
 
         hourly = payload.get("hourly")
 
         if not hourly:
             raise RuntimeError(
-                "Open-Meteo returned no historical weather data."
+                "Open-Meteo returned no historical "
+                "weather data."
             )
 
-        frame = pd.DataFrame(hourly)
+        frame = pd.DataFrame(
+            hourly
+        )
 
         frame["timestamp"] = pd.to_datetime(
             frame["time"],
@@ -192,8 +292,8 @@ class OpenMeteoClient:
         city: CityConfig,
         hours: int,
     ) -> pd.DataFrame:
-        response = requests.get(
-            self.AIR_QUALITY_URL,
+        payload = self._request(
+            url=self.AIR_QUALITY_URL,
             params={
                 "latitude": city.latitude,
                 "longitude": city.longitude,
@@ -204,20 +304,24 @@ class OpenMeteoClient:
                 "forecast_hours": 0,
                 "timezone": "UTC",
             },
-            timeout=self.REQUEST_TIMEOUT_SECONDS,
+            source_name=(
+                f"Open-Meteo air quality for {city.name}"
+            ),
         )
 
-        response.raise_for_status()
-        payload = response.json()
-
-        hourly = payload.get("hourly")
+        hourly = payload.get(
+            "hourly"
+        )
 
         if not hourly:
             raise RuntimeError(
-                "Open-Meteo returned no air-quality history."
+                "Open-Meteo returned no "
+                "air-quality history."
             )
 
-        frame = pd.DataFrame(hourly)
+        frame = pd.DataFrame(
+            hourly
+        )
 
         frame["timestamp"] = pd.to_datetime(
             frame["time"],
@@ -244,7 +348,8 @@ class OpenMeteoClient:
     ) -> None:
         if len(df) != expected_hours:
             raise RuntimeError(
-                f"Expected {expected_hours} rows, got {len(df)}."
+                f"Expected {expected_hours} rows, "
+                f"got {len(df)}."
             )
 
         if df.isnull().any().any():
@@ -256,7 +361,8 @@ class OpenMeteoClient:
             )
 
             raise RuntimeError(
-                f"Bootstrap contains missing values: {missing}"
+                "Bootstrap contains missing "
+                f"values: {missing}"
             )
 
         differences = (
@@ -266,12 +372,14 @@ class OpenMeteoClient:
         )
 
         invalid = differences[
-            differences != pd.Timedelta(hours=1)
+            differences
+            != pd.Timedelta(hours=1)
         ]
 
         if not invalid.empty:
             raise RuntimeError(
-                "Bootstrap history is not continuous hourly data."
+                "Bootstrap history is not "
+                "continuous hourly data."
             )
 
         pollutant_columns = [
@@ -287,5 +395,6 @@ class OpenMeteoClient:
             df[pollutant_columns] < 0
         ).any().any():
             raise RuntimeError(
-                "Bootstrap contains negative pollutant values."
+                "Bootstrap contains negative "
+                "pollutant values."
             )

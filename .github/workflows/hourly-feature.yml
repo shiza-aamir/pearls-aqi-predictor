@@ -17,7 +17,7 @@ jobs:
   hourly-feature-pipeline:
     name: Generate hourly AQI forecasts
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     env:
       OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
@@ -38,7 +38,17 @@ jobs:
         run: python -m pip install --upgrade pip
 
       - name: Install serving dependencies
-        run: pip install -e .
+        run: |
+          pip install -e .
+          pip install pyarrow==25.0.1
+
+      - name: Restore hourly history cache
+        uses: actions/cache@v5
+        with:
+          path: data/live/history
+          key: aqi-live-history-${{ github.run_id }}
+          restore-keys: |
+            aqi-live-history-
 
       - name: Run hourly production pipeline
         run: python -m pipelines.hourly_prediction_pipeline
