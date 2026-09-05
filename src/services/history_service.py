@@ -37,13 +37,12 @@ class AQIHistoryService:
     """
     Dashboard-facing recent-history service.
 
-    Ensures that live observation history exists and is
-    current before deriving hourly AQI values with the same
-    AQITargetBuilder used by the Pearls forecasting pipeline.
+    Ensures that live observation history exists and is current,
+    then derives hourly AQI values using the same
+    AQITargetBuilder used by the rest of the Pearls pipeline.
 
-    This makes the History API self-sufficient: it does not
-    depend on the Forecast or Model Insights pages being
-    requested first.
+    This allows the History endpoint to work independently
+    without requiring the Forecast endpoint to be called first.
     """
 
     ALLOWED_HOURS = {
