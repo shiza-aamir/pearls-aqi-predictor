@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T06:51:58.040159+00:00",
+  "source": {
+    "accuracy_artifact": "artifacts\\prediction_accuracy\\horizon_accuracy_summary.csv",
+    "final_results_artifact": "artifacts\\final_holdout\\final_test_results.csv",
+    "final_report_artifact": "artifacts\\final_holdout\\final_holdout_report.json"
+  },
+  "evaluation": {
+    "evaluation_type": "ONE_TIME_FINAL_HOLDOUT_EVALUATION",
+    "selection_metric": "mean walk-forward validation MAE",
+    "selection_frozen_before_test": true,
+    "training_rows": 268281,
+    "test_rows": 50544,
+    "cities": 9,
+    "feature_count": 56,
+    "train_start": "2022-08-07 23:00:00+00:00",
+    "train_end": "2025-12-31 23:00:00+00:00",
+    "test_start": "2026-01-04 00:00:00+00:00",
+    "test_end": "2026-08-25 23:00:00+00:00"
+  },
+  "horizons": [
+    {
+      "horizon_hours": 24,
+      "model": "xgboost",
+      "rows": 50544,
+      "mae": 14.90946710468107,
+      "rmse": 21.16419577930405,
+      "r2": 0.7907557377067282,
+      "median_absolute_error": 10.868615000000004,
+      "within_10_aqi_pct": 46.78300094966762,
+      "within_20_aqi_pct": 74.778410889522,
+      "within_30_aqi_pct": 88.26566951566952,
+      "category_accuracy_pct": 70.51282051282051,
+      "persistence_mae": 17.95471272554606,
+      "mae_improvement_percent": 16.960703707229413
+    },
+    {
+      "horizon_hours": 48,
+      "model": "xgboost",
+      "rows": 50544,
+      "mae": 19.34609640715021,
+      "rmse": 26.89485792484945,
+      "r2": 0.6543274585103032,
+      "median_absolute_error": 14.562397499999996,
+      "within_10_aqi_pct": 36.25751820196265,
+      "within_20_aqi_pct": 63.095520734409625,
+      "within_30_aqi_pct": 80.38540677429566,
+      "category_accuracy_pct": 61.860952833175055,
+      "persistence_mae": 22.551123773346,
+      "mae_improvement_percent": 14.212273415172564
+    },
+    {
+      "horizon_hours": 72,
+      "model": "xgboost",
+      "rows": 50544,
+      "mae": 20.467895556346942,
+      "rmse": 28.24855829239133,
+      "r2": 0.6127984773598563,
+      "median_absolute_error": 15.783527999999995,
+      "within_10_aqi_pct": 34.47886989553656,
+      "within_20_aqi_pct": 59.90424184868629,
+      "within_30_aqi_pct": 77.80943336498892,
+      "category_accuracy_pct": 60.05064893953783,
+      "persistence_mae": 24.31081829692941,
+      "mae_improvement_percent": 15.80745942344848
+    }
+  ]
+}

@@ -1,9 +1,8 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
-
-import pandas as pd
 
 from src.services.forecast_monitoring_service import (
     ForecastMonitoringService,
@@ -42,21 +41,22 @@ class LivePerformance:
 @dataclass(frozen=True)
 class PerformanceResult:
     city: str
-    holdout: tuple[HoldoutPerformance, ...]
-    live: tuple[LivePerformance, ...]
+    holdout: tuple[
+        HoldoutPerformance,
+        ...,
+    ]
+    live: tuple[
+        LivePerformance,
+        ...,
+    ]
     live_evaluated_forecasts: int
     live_status: str
 
 
 class AQIPerformanceService:
-    ACCURACY_PATH = Path(
-        "artifacts/prediction_accuracy/"
-        "horizon_accuracy_summary.csv"
-    )
-
-    FINAL_RESULTS_PATH = Path(
-        "artifacts/final_holdout/"
-        "final_test_results.csv"
+    MANIFEST_PATH = Path(
+        "artifacts/deployment/"
+        "performance_manifest.json"
     )
 
     HORIZONS = (
@@ -68,7 +68,8 @@ class AQIPerformanceService:
     def __init__(
         self,
         monitoring_service: (
-            ForecastMonitoringService | None
+            ForecastMonitoringService
+            | None
         ) = None,
     ) -> None:
         self.monitoring_service = (
@@ -76,32 +77,46 @@ class AQIPerformanceService:
             or ForecastMonitoringService()
         )
 
-    @staticmethod
-    def _require_file(
-        path: Path,
-    ) -> None:
-        if not path.exists():
+    @classmethod
+    def _load_manifest(
+        cls,
+    ) -> dict:
+        if not cls.MANIFEST_PATH.exists():
             raise FileNotFoundError(
-                f"Required performance artifact "
-                f"does not exist: {path}"
+                "Deployment performance "
+                "manifest is unavailable: "
+                f"{cls.MANIFEST_PATH}"
             )
 
-    @staticmethod
-    def _require_columns(
-        df: pd.DataFrame,
-        columns: set[str],
-        name: str,
-    ) -> None:
-        missing = (
-            columns
-            - set(df.columns)
-        )
+        with cls.MANIFEST_PATH.open(
+            "r",
+            encoding="utf-8",
+        ) as file:
+            manifest = json.load(
+                file
+            )
 
-        if missing:
+        if not isinstance(
+            manifest,
+            dict,
+        ):
             raise ValueError(
-                f"{name} is missing columns: "
-                f"{sorted(missing)}"
+                "Performance deployment "
+                "manifest must be an object."
             )
+
+        if (
+            manifest.get(
+                "schema_version"
+            )
+            != 1
+        ):
+            raise ValueError(
+                "Unsupported performance "
+                "manifest schema."
+            )
+
+        return manifest
 
     def _load_holdout(
         self,
@@ -109,144 +124,111 @@ class AQIPerformanceService:
         HoldoutPerformance,
         ...,
     ]:
-        self._require_file(
-            self.ACCURACY_PATH
+        manifest = (
+            self._load_manifest()
         )
 
-        self._require_file(
-            self.FINAL_RESULTS_PATH
+        rows = manifest.get(
+            "horizons"
         )
 
-        accuracy = pd.read_csv(
-            self.ACCURACY_PATH
-        )
-
-        final_results = pd.read_csv(
-            self.FINAL_RESULTS_PATH
-        )
-
-        self._require_columns(
-            accuracy,
-            {
-                "horizon",
-                "rows",
-                "mae",
-                "rmse",
-                "r2",
-                "median_absolute_error",
-                "within_10_aqi_pct",
-                "within_20_aqi_pct",
-                "within_30_aqi_pct",
-                "category_accuracy_pct",
-            },
-            "Prediction accuracy artifact",
-        )
-
-        self._require_columns(
-            final_results,
-            {
-                "horizon_hours",
-                "persistence_mae",
-                "mae_improvement_percent",
-            },
-            "Final holdout artifact",
-        )
-
-        accuracy = accuracy.copy()
-
-        accuracy[
-            "horizon_hours"
-        ] = (
-            accuracy[
-                "horizon"
-            ]
-            .astype(str)
-            .str.lower()
-            .str.replace(
-                "h",
-                "",
-                regex=False,
-            )
-            .astype(int)
-        )
-
-        merged = accuracy.merge(
-            final_results[
-                [
-                    "horizon_hours",
-                    "persistence_mae",
-                    "mae_improvement_percent",
-                ]
-            ],
-            on="horizon_hours",
-            how="inner",
-            validate="one_to_one",
-        )
-
-        if set(
-            merged["horizon_hours"]
-            .astype(int)
-            .tolist()
-        ) != set(self.HORIZONS):
+        if not isinstance(
+            rows,
+            list,
+        ):
             raise ValueError(
-                "Holdout artifacts must contain "
-                "exactly the 24h, 48h, and 72h "
-                "forecast horizons."
+                "Performance manifest "
+                "does not contain horizons."
             )
 
         results = []
 
-        for row in (
-            merged
-            .sort_values(
-                "horizon_hours"
-            )
-            .itertuples(
-                index=False
-            )
-        ):
+        for row in rows:
             results.append(
                 HoldoutPerformance(
                     horizon_hours=int(
-                        row.horizon_hours
+                        row[
+                            "horizon_hours"
+                        ]
                     ),
                     rows=int(
-                        row.rows
+                        row[
+                            "rows"
+                        ]
                     ),
                     mae=float(
-                        row.mae
+                        row[
+                            "mae"
+                        ]
                     ),
                     rmse=float(
-                        row.rmse
+                        row[
+                            "rmse"
+                        ]
                     ),
                     r2=float(
-                        row.r2
+                        row[
+                            "r2"
+                        ]
                     ),
                     median_absolute_error=float(
-                        row.median_absolute_error
+                        row[
+                            "median_absolute_error"
+                        ]
                     ),
                     within_10_aqi_pct=float(
-                        row.within_10_aqi_pct
+                        row[
+                            "within_10_aqi_pct"
+                        ]
                     ),
                     within_20_aqi_pct=float(
-                        row.within_20_aqi_pct
+                        row[
+                            "within_20_aqi_pct"
+                        ]
                     ),
                     within_30_aqi_pct=float(
-                        row.within_30_aqi_pct
+                        row[
+                            "within_30_aqi_pct"
+                        ]
                     ),
                     category_accuracy_pct=float(
-                        row.category_accuracy_pct
+                        row[
+                            "category_accuracy_pct"
+                        ]
                     ),
                     persistence_mae=float(
-                        row.persistence_mae
+                        row[
+                            "persistence_mae"
+                        ]
                     ),
                     mae_improvement_percent=float(
-                        row.mae_improvement_percent
+                        row[
+                            "mae_improvement_percent"
+                        ]
                     ),
                 )
             )
 
-        return tuple(results)
+        results = sorted(
+            results,
+            key=lambda item: (
+                item.horizon_hours
+            ),
+        )
+
+        if tuple(
+            item.horizon_hours
+            for item in results
+        ) != self.HORIZONS:
+            raise ValueError(
+                "Performance manifest must "
+                "contain exactly 24h, 48h, "
+                "and 72h."
+            )
+
+        return tuple(
+            results
+        )
 
     def _load_live(
         self,
@@ -280,7 +262,9 @@ class AQIPerformanceService:
             )
 
         lookup = {
-            int(row.horizon_hours): row
+            int(
+                row.horizon_hours
+            ): row
             for row
             in summary.itertuples(
                 index=False
@@ -341,7 +325,9 @@ class AQIPerformanceService:
                 )
             )
 
-        return tuple(results)
+        return tuple(
+            results
+        )
 
     def get_performance(
         self,
@@ -363,7 +349,9 @@ class AQIPerformanceService:
         )
 
         if evaluated == 0:
-            status = "awaiting_matured_forecasts"
+            status = (
+                "awaiting_matured_forecasts"
+            )
         else:
             status = "available"
 

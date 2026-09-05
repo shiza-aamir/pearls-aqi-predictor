@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-05T06:52:00.721288+00:00",
+  "tracking_backend": "MLflow",
+  "tracking_uri": "sqlite:///mlflow.db",
+  "registered_model": "pearls-aqi-xgboost",
+  "production_models": [
+    {
+      "horizon_hours": 24,
+      "algorithm": "xgboost",
+      "registry_name": "pearls-aqi-xgboost",
+      "registry_alias": "champion-24h",
+      "registry_version": 1,
+      "run_id": "90b6ca988e4140ba91df8ad767bfdf7e",
+      "source": "models:/m-9671f148da3c4f8ea4d01e443957d0c8",
+      "status": "READY",
+      "created_at_ms": 1788016586235,
+      "tags": {
+        "forecast_horizon": "24h",
+        "model_type": "xgboost",
+        "deployment_status": "champion",
+        "selection_frozen_before_test": "true",
+        "training_data_end": "2025-12-31 23:00:00+00:00",
+        "final_test_year": "2026"
+      },
+      "run": {
+        "run_name": "final-xgboost-24h",
+        "experiment_id": "1",
+        "artifact_uri": "file:///F:/pearls-aqi-predictor/mlruns/1/90b6ca988e4140ba91df8ad767bfdf7e/artifacts",
+        "lifecycle_stage": "active",
+        "metrics": {
+          "final_test_mae": 14.909467098681978,
+          "final_test_rmse": 21.164195773451695,
+          "final_test_r2": 0.7907557378224493,
+          "persistence_test_mae": 17.95471272554606,
+          "persistence_test_rmse": 26.174909556928565,
+          "persistence_test_r2": 0.6799481095365865,
+          "mae_improvement_over_persistence_percent": 16.960703707229413,
+          "fit_seconds": 15.680452200002037,
+          "predict_seconds": 0.1528106999976444
+        },
+        "params": {
+          "model_name": "xgboost",
+          "horizon": "24h",
+          "horizon_hours": "24",
+          "feature_count": "56",
+          "training_rows": "268281",
+          "test_rows": "50544",
+          "cities": "9",
+          "train_start": "2022-08-07 23:00:00+00:00",
+          "train_end": "2025-12-31 23:00:00+00:00",
+          "test_start": "2026-01-04 00:00:00+00:00",
+          "test_end": "2026-08-25 23:00:00+00:00",
+          "selection_metric": "mean walk-forward validation MAE",
+          "selection_frozen_before_test": "True",
+          "final_holdout_consumed": "True"
+        }
+      }
+    },
+    {
+      "horizon_hours": 48,
+      "algorithm": "xgboost",
+      "registry_name": "pearls-aqi-xgboost",
+      "registry_alias": "champion-48h",
+      "registry_version": 2,
+      "run_id": "faaec2d3a3584c6db27b858eb19d55f1",
+      "source": "models:/m-2f14b30d66184eeaaed87ec226977be1",
+      "status": "READY",
+      "created_at_ms": 1788016596178,
+      "tags": {
+        "forecast_horizon": "48h",
+        "model_type": "xgboost",
+        "deployment_status": "champion",
+        "selection_frozen_before_test": "true",
+        "training_data_end": "2025-12-31 23:00:00+00:00",
+        "final_test_year": "2026"
+      },
+      "run": {
+        "run_name": "final-xgboost-48h",
+        "experiment_id": "1",
+        "artifact_uri": "file:///F:/pearls-aqi-predictor/mlruns/1/faaec2d3a3584c6db27b858eb19d55f1/artifacts",
+        "lifecycle_stage": "active",
+        "metrics": {
+          "final_test_mae": 19.346096404484083,
+          "final_test_rmse": 26.894857922646082,
+          "final_test_r2": 0.6543274585669419,
+          "persistence_test_mae": 22.551123773345996,
+          "persistence_test_rmse": 32.054430994410666,
+          "persistence_test_r2": 0.5089762282804324,
+          "mae_improvement_over_persistence_percent": 14.212273415172563,
+          "fit_seconds": 14.813759500000742,
+          "predict_seconds": 0.22507880000193836
+        },
+        "params": {
+          "model_name": "xgboost",
+          "horizon": "48h",
+          "horizon_hours": "48",
+          "feature_count": "56",
+          "training_rows": "268281",
+          "test_rows": "50544",
+          "cities": "9",
+          "train_start": "2022-08-07 23:00:00+00:00",
+          "train_end": "2025-12-31 23:00:00+00:00",
+          "test_start": "2026-01-04 00:00:00+00:00",
+          "test_end": "2026-08-25 23:00:00+00:00",
+          "selection_metric": "mean walk-forward validation MAE",
+          "selection_frozen_before_test": "True",
+          "final_holdout_consumed": "True"
+        }
+      }
+    },
+    {
+      "horizon_hours": 72,
+      "algorithm": "xgboost",
+      "registry_name": "pearls-aqi-xgboost",
+      "registry_alias": "champion-72h",
+      "registry_version": 3,
+      "run_id": "2696dfdd2f0144d29cd3218b67997b33",
+      "source": "models:/m-ff8438a681584b1ebabf1316d40ae72f",
+      "status": "READY",
+      "created_at_ms": 1788016604490,
+      "tags": {
+        "forecast_horizon": "72h",
+        "model_type": "xgboost",
+        "deployment_status": "champion",
+        "selection_frozen_before_test": "true",
+        "training_data_end": "2025-12-31 23:00:00+00:00",
+        "final_test_year": "2026"
+      },
+      "run": {
+        "run_name": "final-xgboost-72h",
+        "experiment_id": "1",
+        "artifact_uri": "file:///F:/pearls-aqi-predictor/mlruns/1/2696dfdd2f0144d29cd3218b67997b33/artifacts",
+        "lifecycle_stage": "active",
+        "metrics": {
+          "final_test_mae": 20.467895559134003,
+          "final_test_rmse": 28.248558282403508,
+          "final_test_r2": 0.6127984776336615,
+          "persistence_test_mae": 24.31081829692941,
+          "persistence_test_rmse": 34.246642205830476,
+          "persistence_test_r2": 0.43091062973751004,
+          "mae_improvement_over_persistence_percent": 15.807459423448481,
+          "fit_seconds": 15.333472400001483,
+          "predict_seconds": 0.15317620000132592
+        },
+        "params": {
+          "model_name": "xgboost",
+          "horizon": "72h",
+          "horizon_hours": "72",
+          "feature_count": "56",
+          "training_rows": "268281",
+          "test_rows": "50544",
+          "cities": "9",
+          "train_start": "2022-08-07 23:00:00+00:00",
+          "train_end": "2025-12-31 23:00:00+00:00",
+          "test_start": "2026-01-04 00:00:00+00:00",
+          "test_end": "2026-08-25 23:00:00+00:00",
+          "selection_metric": "mean walk-forward validation MAE",
+          "selection_frozen_before_test": "True",
+          "final_holdout_consumed": "True"
+        }
+      }
+    }
+  ],
+  "evaluated_candidates": [
+    "Persistence",
+    "Ridge",
+    "Random Forest",
+    "XGBoost",
+    "CNN",
+    "GRU",
+    "CNN-LSTM"
+  ]
+}

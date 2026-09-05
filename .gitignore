@@ -82,8 +82,12 @@ feature_repo/feature_repo/data/*
 # Trained models / generated artifacts
 # =========================================================
 
-artifacts/
-models/
+# Generated ML/training artifacts are ignored.
+artifacts/**
+
+# Versioned deployment snapshots are committed.
+!artifacts/deployment/
+!artifacts/deployment/*.json
 
 *.joblib
 *.pkl
