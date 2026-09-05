@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: hourly-aqi-feature-pipeline
@@ -23,6 +23,7 @@ jobs:
       OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
       AQICN_API_TOKEN: ${{ secrets.AQICN_API_TOKEN }}
       MODEL_SOURCE: bundled
+      FORECAST_LEDGER_PATH: data/live/forecast_ledger.csv
 
     steps:
       - name: Checkout repository
@@ -50,5 +51,123 @@ jobs:
           restore-keys: |
             aqi-live-history-
 
+      - name: Restore durable monitoring ledger
+        run: |
+          mkdir -p data/live
+
+          git fetch origin \
+            monitoring-data:refs/remotes/origin/monitoring-data \
+            --depth=1
+
+          git show \
+            origin/monitoring-data:forecast_ledger.csv \
+            > data/live/forecast_ledger.csv
+
+          python - <<'PY'
+          import pandas as pd
+
+          path = "data/live/forecast_ledger.csv"
+          df = pd.read_csv(path)
+
+          print(
+              "Restored durable monitoring ledger:"
+          )
+          print(
+              f"Rows: {len(df):,}"
+          )
+
+          if not df.empty:
+              print(
+                  "Cities:",
+                  df["city"].nunique(),
+              )
+              print(
+                  "Evaluated forecasts:",
+                  df["actual_aqi"]
+                  .notna()
+                  .sum(),
+              )
+          PY
+
       - name: Run hourly production pipeline
         run: python -m pipelines.hourly_prediction_pipeline
+
+      - name: Verify updated monitoring ledger
+        run: |
+          python - <<'PY'
+          import pandas as pd
+
+          path = "data/live/forecast_ledger.csv"
+          df = pd.read_csv(path)
+
+          print(
+              "Updated monitoring ledger:"
+          )
+          print(
+              f"Rows: {len(df):,}"
+          )
+          print(
+              "Evaluated forecasts:",
+              df["actual_aqi"]
+              .notna()
+              .sum(),
+          )
+
+          print()
+          print(
+              df.groupby(
+                  [
+                      "city",
+                      "horizon_hours",
+                  ]
+              )["actual_aqi"]
+              .agg(
+                  [
+                      "count",
+                      "size",
+                  ]
+              )
+              .to_string()
+          )
+          PY
+
+      - name: Publish durable monitoring ledger
+        run: |
+          rm -rf /tmp/pearls-monitoring-data
+
+          git worktree add \
+            /tmp/pearls-monitoring-data \
+            -B monitoring-data \
+            origin/monitoring-data
+
+          cp \
+            data/live/forecast_ledger.csv \
+            /tmp/pearls-monitoring-data/forecast_ledger.csv
+
+          git -C /tmp/pearls-monitoring-data \
+            config user.name \
+            "github-actions[bot]"
+
+          git -C /tmp/pearls-monitoring-data \
+            config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git -C /tmp/pearls-monitoring-data \
+            add forecast_ledger.csv
+
+          if git -C /tmp/pearls-monitoring-data \
+            diff --cached --quiet
+          then
+            echo "Monitoring ledger has no changes."
+          else
+            git -C /tmp/pearls-monitoring-data \
+              commit \
+              -m "chore: update hourly forecast monitoring"
+
+            git -C /tmp/pearls-monitoring-data \
+              push origin monitoring-data
+          fi
+
+          git worktree remove \
+            /tmp/pearls-monitoring-data \
+            --force

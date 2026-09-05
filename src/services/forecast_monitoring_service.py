@@ -1,15 +1,20 @@
 from __future__ import annotations
 
+import logging
 import os
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from datetime import datetime
+from io import StringIO
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import requests
 
 from src.features.aqi.calculator import AQICalculator
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -52,14 +57,58 @@ class ForecastMonitoringService:
         "evaluated_at",
     ]
 
+    DATETIME_COLUMNS = [
+        "forecast_created_at",
+        "target_timestamp",
+        "evaluated_at",
+    ]
+
+    NUMERIC_COLUMNS = [
+        "horizon_hours",
+        "predicted_aqi",
+        "actual_aqi",
+        "absolute_error",
+        "category_distance",
+    ]
+
+    BOOLEAN_COLUMNS = [
+        "category_correct",
+        "adjacent_category_correct",
+    ]
+
+    REMOTE_TIMEOUT_SECONDS = 20
+
     def __init__(
         self,
         ledger_path: Path | None = None,
     ) -> None:
+        self.remote_ledger_url = (
+            os.getenv(
+                "MONITORING_LEDGER_URL"
+            )
+            if self._is_vercel()
+            else None
+        )
+
+        env_ledger_path = os.getenv(
+            "FORECAST_LEDGER_PATH"
+        )
+
+        if ledger_path is not None:
+            resolved_path = Path(
+                ledger_path
+            )
+        elif env_ledger_path:
+            resolved_path = Path(
+                env_ledger_path
+            )
+        else:
+            resolved_path = (
+                self._resolve_ledger_path()
+            )
+
         self.ledger_path = (
-            Path(ledger_path)
-            if ledger_path is not None
-            else self._resolve_ledger_path()
+            resolved_path
         )
 
         self.ledger_path.parent.mkdir(
@@ -71,6 +120,14 @@ class ForecastMonitoringService:
     def _is_vercel() -> bool:
         return bool(
             os.getenv("VERCEL")
+        )
+
+    @property
+    def remote_read_only(
+        self,
+    ) -> bool:
+        return bool(
+            self.remote_ledger_url
         )
 
     @classmethod
@@ -95,12 +152,16 @@ class ForecastMonitoringService:
         timestamp = pd.Timestamp(value)
 
         if timestamp.tzinfo is None:
-            timestamp = timestamp.tz_localize(
-                "UTC"
+            timestamp = (
+                timestamp.tz_localize(
+                    "UTC"
+                )
             )
         else:
-            timestamp = timestamp.tz_convert(
-                "UTC"
+            timestamp = (
+                timestamp.tz_convert(
+                    "UTC"
+                )
             )
 
         return timestamp
@@ -124,14 +185,97 @@ class ForecastMonitoringService:
             )
         )
 
+    @staticmethod
+    def _parse_boolean(
+        value,
+    ):
+        if pd.isna(value):
+            return pd.NA
+
+        if isinstance(
+            value,
+            (bool, np.bool_),
+        ):
+            return bool(value)
+
+        text = (
+            str(value)
+            .strip()
+            .casefold()
+        )
+
+        if text in {
+            "true",
+            "1",
+            "yes",
+        }:
+            return True
+
+        if text in {
+            "false",
+            "0",
+            "no",
+        }:
+            return False
+
+        return pd.NA
+
     def _empty_ledger(
         self,
     ) -> pd.DataFrame:
         return pd.DataFrame(
-            columns=self.REQUIRED_LEDGER_COLUMNS
+            columns=(
+                self.REQUIRED_LEDGER_COLUMNS
+            )
         )
 
-    def load_ledger(
+    def _normalize_ledger(
+        self,
+        df: pd.DataFrame,
+    ) -> pd.DataFrame:
+        df = df.copy()
+
+        for column in (
+            self.REQUIRED_LEDGER_COLUMNS
+        ):
+            if column not in df.columns:
+                df[column] = pd.NA
+
+        df = df[
+            self.REQUIRED_LEDGER_COLUMNS
+        ].copy()
+
+        for column in (
+            self.DATETIME_COLUMNS
+        ):
+            df[column] = pd.to_datetime(
+                df[column],
+                utc=True,
+                errors="coerce",
+            )
+
+        for column in (
+            self.NUMERIC_COLUMNS
+        ):
+            df[column] = pd.to_numeric(
+                df[column],
+                errors="coerce",
+            )
+
+        for column in (
+            self.BOOLEAN_COLUMNS
+        ):
+            df[column] = (
+                df[column]
+                .map(
+                    self._parse_boolean
+                )
+                .astype("boolean")
+            )
+
+        return df
+
+    def _read_local_ledger(
         self,
     ) -> pd.DataFrame:
         if not self.ledger_path.exists():
@@ -151,32 +295,101 @@ class ForecastMonitoringService:
                 self.ledger_path
             )
 
-        for column in self.REQUIRED_LEDGER_COLUMNS:
-            if column not in df.columns:
-                df[column] = pd.NA
+        return self._normalize_ledger(
+            df
+        )
 
-        df = df[
-            self.REQUIRED_LEDGER_COLUMNS
-        ].copy()
-
-        for column in [
-            "forecast_created_at",
-            "target_timestamp",
-            "evaluated_at",
-        ]:
-            df[column] = pd.to_datetime(
-                df[column],
-                utc=True,
-                errors="coerce",
+    def _load_remote_ledger(
+        self,
+    ) -> pd.DataFrame:
+        if not self.remote_ledger_url:
+            raise RuntimeError(
+                "Remote monitoring ledger URL "
+                "is not configured."
             )
 
+        response = requests.get(
+            self.remote_ledger_url,
+            timeout=(
+                self.REMOTE_TIMEOUT_SECONDS
+            ),
+        )
+
+        response.raise_for_status()
+
+        df = pd.read_csv(
+            StringIO(
+                response.text
+            )
+        )
+
+        df = self._normalize_ledger(
+            df
+        )
+
+        df.to_csv(
+            self.ledger_path,
+            index=False,
+        )
+
         return df
+
+    def load_ledger(
+        self,
+    ) -> pd.DataFrame:
+        if self.remote_read_only:
+            try:
+                return (
+                    self._load_remote_ledger()
+                )
+
+            except (
+                requests.RequestException,
+                ValueError,
+                TypeError,
+                pd.errors.ParserError,
+            ) as exc:
+                logger.warning(
+                    "Unable to load durable "
+                    "remote forecast ledger: %s",
+                    exc,
+                )
+
+                if self.ledger_path.exists():
+                    logger.info(
+                        "Using cached forecast "
+                        "ledger from %s",
+                        self.ledger_path,
+                    )
+
+                    return (
+                        self._read_local_ledger()
+                    )
+
+                logger.warning(
+                    "No cached monitoring ledger "
+                    "is available."
+                )
+
+                return self._empty_ledger()
+
+        return self._read_local_ledger()
 
     def _save_ledger(
         self,
         df: pd.DataFrame,
     ) -> None:
-        df = df.copy()
+        if self.remote_read_only:
+            logger.debug(
+                "Skipping forecast ledger write "
+                "because the configured remote "
+                "monitoring source is read-only."
+            )
+            return
+
+        df = self._normalize_ledger(
+            df
+        )
 
         df = df.sort_values(
             [
@@ -211,6 +424,9 @@ class ForecastMonitoringService:
         forecast_created_at,
         predictions: Iterable,
     ) -> pd.DataFrame:
+        if self.remote_read_only:
+            return self.load_ledger()
+
         created_at = (
             self._to_utc_timestamp(
                 forecast_created_at
@@ -305,10 +521,13 @@ class ForecastMonitoringService:
                         ]
                     ),
                     int(
-                        row["horizon_hours"]
+                        row[
+                            "horizon_hours"
+                        ]
                     ),
                 )
-                for _, row in ledger.iterrows()
+                for _, row
+                in ledger.iterrows()
             }
 
             new_df = new_df[
@@ -359,6 +578,9 @@ class ForecastMonitoringService:
         history: pd.DataFrame,
         evaluated_at=None,
     ) -> pd.DataFrame:
+        if self.remote_read_only:
+            return self.load_ledger()
+
         ledger = self.load_ledger()
 
         if ledger.empty:
@@ -633,12 +855,30 @@ class ForecastMonitoringService:
                 .to_numpy()
             )
 
+            category_accuracy = (
+                group[
+                    "category_correct"
+                ]
+                .astype("boolean")
+                .mean()
+            )
+
+            adjacent_accuracy = (
+                group[
+                    "adjacent_category_correct"
+                ]
+                .astype("boolean")
+                .mean()
+            )
+
             rows.append(
                 {
                     "horizon_hours": int(
                         horizon
                     ),
-                    "evaluated_forecasts": len(group),
+                    "evaluated_forecasts": (
+                        len(group)
+                    ),
                     "mae": float(
                         np.mean(
                             errors
@@ -674,19 +914,11 @@ class ForecastMonitoringService:
                         * 100.0
                     ),
                     "category_accuracy_pct": float(
-                        group[
-                            "category_correct"
-                        ]
-                        .astype(bool)
-                        .mean()
+                        category_accuracy
                         * 100.0
                     ),
                     "adjacent_category_accuracy_pct": float(
-                        group[
-                            "adjacent_category_correct"
-                        ]
-                        .astype(bool)
-                        .mean()
+                        adjacent_accuracy
                         * 100.0
                     ),
                 }
