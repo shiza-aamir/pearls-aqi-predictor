@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-05T06:52:00.721288+00:00",
+  "generated_at_utc": "2026-09-05T07:12:26.278428+00:00",
   "tracking_backend": "MLflow",
   "tracking_uri": "sqlite:///mlflow.db",
   "registered_model": "pearls-aqi-xgboost",
@@ -26,7 +26,7 @@
       "run": {
         "run_name": "final-xgboost-24h",
         "experiment_id": "1",
-        "artifact_uri": "file:///F:/pearls-aqi-predictor/mlruns/1/90b6ca988e4140ba91df8ad767bfdf7e/artifacts",
+        "artifact_location": "mlruns/1/90b6ca988e4140ba91df8ad767bfdf7e/artifacts",
         "lifecycle_stage": "active",
         "metrics": {
           "final_test_mae": 14.909467098681978,
@@ -78,7 +78,7 @@
       "run": {
         "run_name": "final-xgboost-48h",
         "experiment_id": "1",
-        "artifact_uri": "file:///F:/pearls-aqi-predictor/mlruns/1/faaec2d3a3584c6db27b858eb19d55f1/artifacts",
+        "artifact_location": "mlruns/1/faaec2d3a3584c6db27b858eb19d55f1/artifacts",
         "lifecycle_stage": "active",
         "metrics": {
           "final_test_mae": 19.346096404484083,
@@ -130,7 +130,7 @@
       "run": {
         "run_name": "final-xgboost-72h",
         "experiment_id": "1",
-        "artifact_uri": "file:///F:/pearls-aqi-predictor/mlruns/1/2696dfdd2f0144d29cd3218b67997b33/artifacts",
+        "artifact_location": "mlruns/1/2696dfdd2f0144d29cd3218b67997b33/artifacts",
         "lifecycle_stage": "active",
         "metrics": {
           "final_test_mae": 20.467895559134003,

@@ -1,7 +1,9 @@
+# scripts/export_deployment_metadata.py
+
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -9,7 +11,6 @@ import mlflow
 import pandas as pd
 import yaml
 from mlflow import MlflowClient
-
 
 TRACKING_URI = "sqlite:///mlflow.db"
 
@@ -78,8 +79,8 @@ def require_file(
 ) -> None:
     if not path.exists():
         raise FileNotFoundError(
-            f"Required source artifact does not exist: "
-            f"{path}"
+            "Required source artifact "
+            f"does not exist: {path}"
         )
 
 
@@ -102,7 +103,7 @@ def load_json(
         data,
         dict,
     ):
-        raise ValueError(
+        raise TypeError(
             f"Expected JSON object in {path}."
         )
 
@@ -137,7 +138,7 @@ def write_json(
 def exported_at() -> str:
     return (
         datetime.now(
-            timezone.utc
+            UTC
         )
         .isoformat()
     )
@@ -181,13 +182,16 @@ def export_performance_manifest() -> None:
 
     missing_final = (
         required_final_columns
-        - set(final_results.columns)
+        - set(
+            final_results.columns
+        )
     )
 
     if missing_final:
         raise ValueError(
-            "Final holdout results are missing "
-            f"columns: {sorted(missing_final)}"
+            "Final holdout results are "
+            "missing columns: "
+            f"{sorted(missing_final)}"
         )
 
     required_accuracy_columns = {
@@ -205,7 +209,9 @@ def export_performance_manifest() -> None:
 
     missing_accuracy = (
         required_accuracy_columns
-        - set(accuracy.columns)
+        - set(
+            accuracy.columns
+        )
     )
 
     if missing_accuracy:
@@ -214,20 +220,28 @@ def export_performance_manifest() -> None:
             f"columns: {sorted(missing_accuracy)}"
         )
 
-    accuracy = accuracy.copy()
+    accuracy = (
+        accuracy.copy()
+    )
 
     accuracy[
         "horizon_hours"
     ] = (
-        accuracy["horizon"]
-        .astype(str)
+        accuracy[
+            "horizon"
+        ]
+        .astype(
+            str
+        )
         .str.lower()
         .str.replace(
             "h",
             "",
             regex=False,
         )
-        .astype(int)
+        .astype(
+            int
+        )
     )
 
     merged = accuracy.merge(
@@ -249,7 +263,9 @@ def export_performance_manifest() -> None:
         merged[
             "horizon_hours"
         ]
-        .astype(int)
+        .astype(
+            int
+        )
         .tolist()
     )
 
@@ -258,8 +274,9 @@ def export_performance_manifest() -> None:
         != EXPECTED_HORIZONS
     ):
         raise ValueError(
-            "Performance artifacts must contain "
-            "exactly 24h, 48h, and 72h. "
+            "Performance artifacts must "
+            "contain exactly 24h, 48h, "
+            "and 72h. "
             f"Found: {sorted(found_horizons)}"
         )
 
@@ -279,7 +296,9 @@ def export_performance_manifest() -> None:
 
     missing_report = (
         expected_report_fields
-        - set(report)
+        - set(
+            report
+        )
     )
 
     if missing_report:
@@ -448,7 +467,9 @@ def export_model_registry_manifest() -> None:
     )
 
     require_file(
-        Path("mlflow.db")
+        Path(
+            "mlflow.db"
+        )
     )
 
     report = load_json(
@@ -459,7 +480,9 @@ def export_model_registry_manifest() -> None:
         TRACKING_URI
     )
 
-    client = MlflowClient()
+    client = (
+        MlflowClient()
+    )
 
     production_models: list[
         dict[str, Any]
@@ -479,7 +502,7 @@ def export_model_registry_manifest() -> None:
 
         if version is None:
             raise RuntimeError(
-                f"No MLflow version found for "
+                "No MLflow version found for "
                 f"{MODEL_NAME}@{alias}."
             )
 
@@ -526,8 +549,8 @@ def export_model_registry_manifest() -> None:
         ):
             raise ValueError(
                 f"{alias} points to horizon "
-                f"{registered_horizon!r}; expected "
-                f"{expected_horizon!r}."
+                f"{registered_horizon!r}; "
+                f"expected {expected_horizon!r}."
             )
 
         if (
@@ -552,6 +575,17 @@ def export_model_registry_manifest() -> None:
                 "selection_frozen_before_test."
             )
 
+        artifact_location = (
+            Path(
+                "mlruns"
+            )
+            / str(
+                run.info.experiment_id
+            )
+            / run_id
+            / "artifacts"
+        )
+
         production_models.append(
             {
                 "horizon_hours": (
@@ -563,11 +597,15 @@ def export_model_registry_manifest() -> None:
                 "registry_name": (
                     MODEL_NAME
                 ),
-                "registry_alias": alias,
+                "registry_alias": (
+                    alias
+                ),
                 "registry_version": int(
                     details.version
                 ),
-                "run_id": run_id,
+                "run_id": (
+                    run_id
+                ),
                 "source": str(
                     details.source
                 ),
@@ -577,7 +615,9 @@ def export_model_registry_manifest() -> None:
                 "created_at_ms": int(
                     details.creation_timestamp
                 ),
-                "tags": tags,
+                "tags": (
+                    tags
+                ),
                 "run": {
                     "run_name": (
                         run.data.tags.get(
@@ -587,20 +627,31 @@ def export_model_registry_manifest() -> None:
                     "experiment_id": str(
                         run.info.experiment_id
                     ),
-                    "artifact_uri": str(
-                        run.info.artifact_uri
+                    "artifact_location": (
+                        artifact_location
+                        .as_posix()
                     ),
                     "lifecycle_stage": str(
                         run.info.lifecycle_stage
                     ),
                     "metrics": {
-                        key: float(value)
-                        for key, value
+                        key: float(
+                            value
+                        )
+                        for (
+                            key,
+                            value,
+                        )
                         in run.data.metrics.items()
                     },
                     "params": {
-                        key: str(value)
-                        for key, value
+                        key: str(
+                            value
+                        )
+                        for (
+                            key,
+                            value,
+                        )
                         in run.data.params.items()
                     },
                 },
@@ -609,8 +660,17 @@ def export_model_registry_manifest() -> None:
 
     selected = report.get(
         "selected_models",
-        {}
+        {},
     )
+
+    if not isinstance(
+        selected,
+        dict,
+    ):
+        raise TypeError(
+            "Final holdout report field "
+            "'selected_models' must be an object."
+        )
 
     for horizon in (
         "24h",
@@ -618,11 +678,13 @@ def export_model_registry_manifest() -> None:
         "72h",
     ):
         if (
-            selected.get(horizon)
+            selected.get(
+                horizon
+            )
             != "xgboost"
         ):
             raise ValueError(
-                f"Final report does not select "
+                "Final report does not select "
                 f"XGBoost for {horizon}."
             )
 
@@ -694,14 +756,14 @@ def export_feature_store_manifest() -> None:
         config,
         dict,
     ):
-        raise ValueError(
+        raise TypeError(
             "Feast configuration is invalid."
         )
 
     project = str(
         config.get(
             "project",
-            ""
+            "",
         )
     )
 
@@ -719,7 +781,9 @@ def export_feature_store_manifest() -> None:
         Any,
     ] = {}
 
-    if FEAST_REPORT_PATH.exists():
+    if (
+        FEAST_REPORT_PATH.exists()
+    ):
         feature_report = load_json(
             FEAST_REPORT_PATH
         )
@@ -741,8 +805,10 @@ def export_feature_store_manifest() -> None:
         marker
         for marker
         in required_definition_markers
-        if marker
-        not in definitions_text
+        if (
+            marker
+            not in definitions_text
+        )
     ]
 
     if missing_markers:
@@ -752,28 +818,43 @@ def export_feature_store_manifest() -> None:
             f"definitions: {missing_markers}"
         )
 
-    online_store = config.get(
-        "online_store",
-        {}
+    online_store = (
+        config.get(
+            "online_store",
+            {},
+        )
     )
+
+    if not isinstance(
+        online_store,
+        dict,
+    ):
+        raise TypeError(
+            "Feast online_store "
+            "configuration must be an object."
+        )
 
     manifest = {
         "schema_version": 1,
         "generated_at_utc": (
             exported_at()
         ),
-        "feature_store": "Feast",
-        "project": project,
+        "feature_store": (
+            "Feast"
+        ),
+        "project": (
+            project
+        ),
         "provider": str(
             config.get(
                 "provider",
-                ""
+                "",
             )
         ),
         "registry": str(
             config.get(
                 "registry",
-                ""
+                "",
             )
         ),
         "online_store": (
@@ -785,9 +866,15 @@ def export_feature_store_manifest() -> None:
             )
         ),
         "feature_view": {
-            "name": "aqi_features",
-            "feature_count": 56,
-            "online": True,
+            "name": (
+                "aqi_features"
+            ),
+            "feature_count": (
+                56
+            ),
+            "online": (
+                True
+            ),
         },
         "feature_service": {
             "name": (
@@ -850,7 +937,8 @@ def main() -> None:
     export_feature_store_manifest()
 
     print(
-        "\n" + "=" * 80
+        "\n"
+        + "=" * 80
     )
 
     print(

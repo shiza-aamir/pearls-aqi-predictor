@@ -9,7 +9,7 @@ from src.ml.models.xgboost_model import (
 
 __all__ = [
     "PersistenceBaseline",
-    "create_ridge_model",
     "create_random_forest_model",
+    "create_ridge_model",
     "create_xgboost_model",
 ]

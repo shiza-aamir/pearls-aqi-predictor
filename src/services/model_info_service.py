@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -34,17 +35,15 @@ class ModelInfoResult:
         ProductionModel,
         ...,
     ]
-
     evaluated_candidates: tuple[
         str,
         ...,
     ]
-
     evaluation: ModelEvaluation
 
 
 class AQIModelInfoService:
-    REGISTRY_MANIFEST_PATH = Path(
+    MODEL_MANIFEST_PATH = Path(
         "artifacts/deployment/"
         "model_registry_manifest.json"
     )
@@ -54,20 +53,20 @@ class AQIModelInfoService:
         "performance_manifest.json"
     )
 
-    HORIZONS = (
+    EXPECTED_HORIZONS = {
         24,
         48,
         72,
-    )
+    }
 
     @staticmethod
-    def _load_json(
+    def _load_manifest(
         path: Path,
-    ) -> dict:
+    ) -> dict[str, Any]:
         if not path.exists():
             raise FileNotFoundError(
-                "Required deployment "
-                f"manifest does not exist: {path}"
+                "Deployment manifest does "
+                f"not exist: {path}"
             )
 
         with path.open(
@@ -82,8 +81,8 @@ class AQIModelInfoService:
             data,
             dict,
         ):
-            raise ValueError(
-                f"Deployment manifest "
+            raise TypeError(
+                "Deployment manifest "
                 f"must be an object: {path}"
             )
 
@@ -103,122 +102,142 @@ class AQIModelInfoService:
     def get_model_info(
         self,
     ) -> ModelInfoResult:
-        registry = self._load_json(
-            self.REGISTRY_MANIFEST_PATH
-        )
-
-        performance = self._load_json(
-            self.PERFORMANCE_MANIFEST_PATH
-        )
-
-        registered_model = str(
-            registry.get(
-                "registered_model",
-                "",
+        model_manifest = (
+            self._load_manifest(
+                self.MODEL_MANIFEST_PATH
             )
         )
 
-        if not registered_model:
-            raise ValueError(
-                "MLflow registry manifest "
-                "does not contain a registered model."
+        performance_manifest = (
+            self._load_manifest(
+                self.PERFORMANCE_MANIFEST_PATH
             )
+        )
 
-        model_rows = registry.get(
-            "production_models"
+        raw_models = (
+            model_manifest.get(
+                "production_models"
+            )
         )
 
         if not isinstance(
-            model_rows,
+            raw_models,
             list,
         ):
-            raise ValueError(
+            raise TypeError(
                 "MLflow registry manifest "
                 "does not contain production models."
             )
 
-        production_models = []
+        production_models: list[
+            ProductionModel
+        ] = []
 
-        found_horizons = []
+        found_horizons: set[
+            int
+        ] = set()
 
-        for row in model_rows:
-            horizon = int(
-                row[
+        for item in raw_models:
+            if not isinstance(
+                item,
+                dict,
+            ):
+                raise TypeError(
+                    "Production model entry "
+                    "must be an object."
+                )
+
+            horizon_hours = int(
+                item[
                     "horizon_hours"
                 ]
             )
 
-            found_horizons.append(
-                horizon
+            algorithm = str(
+                item[
+                    "algorithm"
+                ]
             )
 
             registry_name = str(
-                row[
+                item[
                     "registry_name"
                 ]
             )
 
+            registry_alias = str(
+                item[
+                    "registry_alias"
+                ]
+            )
+
             if (
-                registry_name
-                != registered_model
+                horizon_hours
+                in found_horizons
             ):
                 raise ValueError(
-                    "Inconsistent registered "
-                    "model name in MLflow manifest."
+                    "Duplicate production "
+                    f"horizon: {horizon_hours}"
                 )
+
+            found_horizons.add(
+                horizon_hours
+            )
 
             production_models.append(
                 ProductionModel(
-                    horizon_hours=horizon,
-                    algorithm=str(
-                        row[
-                            "algorithm"
-                        ]
+                    horizon_hours=(
+                        horizon_hours
+                    ),
+                    algorithm=(
+                        algorithm
                     ),
                     registry_name=(
                         registry_name
                     ),
-                    registry_alias=str(
-                        row[
-                            "registry_alias"
-                        ]
+                    registry_alias=(
+                        registry_alias
                     ),
                 )
             )
 
-        production_models.sort(
-            key=lambda item: (
-                item.horizon_hours
-            )
-        )
-
-        if tuple(
-            sorted(
-                found_horizons
-            )
-        ) != self.HORIZONS:
+        if (
+            found_horizons
+            != self.EXPECTED_HORIZONS
+        ):
             raise ValueError(
-                "MLflow registry manifest "
-                "must contain exactly the "
-                "24h, 48h, and 72h champions."
+                "Production registry must "
+                "contain exactly 24h, 48h, "
+                "and 72h models. "
+                f"Found: {sorted(found_horizons)}"
             )
 
-        candidates = registry.get(
-            "evaluated_candidates"
+        raw_candidates = (
+            model_manifest.get(
+                "evaluated_candidates"
+            )
         )
 
         if not isinstance(
-            candidates,
+            raw_candidates,
             list,
         ):
-            raise ValueError(
+            raise TypeError(
                 "MLflow registry manifest "
                 "does not contain evaluated "
                 "model candidates."
             )
 
+        evaluated_candidates = tuple(
+            str(
+                candidate
+            )
+            for candidate
+            in raw_candidates
+        )
+
         evaluation_data = (
-            performance.get(
+            performance_manifest.get(
                 "evaluation"
             )
         )
@@ -227,77 +246,114 @@ class AQIModelInfoService:
             evaluation_data,
             dict,
         ):
-            raise ValueError(
+            raise TypeError(
                 "Performance manifest "
                 "does not contain evaluation "
                 "metadata."
             )
 
-        evaluation = ModelEvaluation(
-            evaluation_type=str(
-                evaluation_data[
-                    "evaluation_type"
-                ]
-            ),
-            selection_metric=str(
-                evaluation_data[
-                    "selection_metric"
-                ]
-            ),
-            selection_frozen_before_test=bool(
-                evaluation_data[
-                    "selection_frozen_before_test"
-                ]
-            ),
-            training_rows=int(
-                evaluation_data[
-                    "training_rows"
-                ]
-            ),
-            test_rows=int(
-                evaluation_data[
-                    "test_rows"
-                ]
-            ),
-            cities=int(
-                evaluation_data[
-                    "cities"
-                ]
-            ),
-            feature_count=int(
-                evaluation_data[
-                    "feature_count"
-                ]
-            ),
-            train_start=str(
-                evaluation_data[
-                    "train_start"
-                ]
-            ),
-            train_end=str(
-                evaluation_data[
-                    "train_end"
-                ]
-            ),
-            test_start=str(
-                evaluation_data[
-                    "test_start"
-                ]
-            ),
-            test_end=str(
-                evaluation_data[
-                    "test_end"
-                ]
-            ),
+        required_fields = {
+            "evaluation_type",
+            "selection_metric",
+            "selection_frozen_before_test",
+            "training_rows",
+            "test_rows",
+            "cities",
+            "feature_count",
+            "train_start",
+            "train_end",
+            "test_start",
+            "test_end",
+        }
+
+        missing_fields = (
+            required_fields
+            - set(
+                evaluation_data
+            )
+        )
+
+        if missing_fields:
+            raise ValueError(
+                "Performance manifest "
+                "evaluation metadata is "
+                "missing fields: "
+                f"{sorted(missing_fields)}"
+            )
+
+        evaluation = (
+            ModelEvaluation(
+                evaluation_type=str(
+                    evaluation_data[
+                        "evaluation_type"
+                    ]
+                ),
+                selection_metric=str(
+                    evaluation_data[
+                        "selection_metric"
+                    ]
+                ),
+                selection_frozen_before_test=bool(
+                    evaluation_data[
+                        "selection_frozen_before_test"
+                    ]
+                ),
+                training_rows=int(
+                    evaluation_data[
+                        "training_rows"
+                    ]
+                ),
+                test_rows=int(
+                    evaluation_data[
+                        "test_rows"
+                    ]
+                ),
+                cities=int(
+                    evaluation_data[
+                        "cities"
+                    ]
+                ),
+                feature_count=int(
+                    evaluation_data[
+                        "feature_count"
+                    ]
+                ),
+                train_start=str(
+                    evaluation_data[
+                        "train_start"
+                    ]
+                ),
+                train_end=str(
+                    evaluation_data[
+                        "train_end"
+                    ]
+                ),
+                test_start=str(
+                    evaluation_data[
+                        "test_start"
+                    ]
+                ),
+                test_end=str(
+                    evaluation_data[
+                        "test_end"
+                    ]
+                ),
+            )
         )
 
         return ModelInfoResult(
             production_models=tuple(
-                production_models
+                sorted(
+                    production_models,
+                    key=lambda model: (
+                        model.horizon_hours
+                    ),
+                )
             ),
-            evaluated_candidates=tuple(
-                str(item)
-                for item in candidates
+            evaluated_candidates=(
+                evaluated_candidates
             ),
-            evaluation=evaluation,
+            evaluation=(
+                evaluation
+            ),
         )
