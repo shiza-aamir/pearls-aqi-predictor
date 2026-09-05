@@ -152,3 +152,11 @@ coverage/
 .DS_Store
 Thumbs.db
 desktop.ini
+# Scheduled training snapshot
+# Keep only the protected development Fold 3 available to GitHub Actions.
+!data/splits/expanded/
+data/splits/expanded/*
+!data/splits/expanded/fold_3/
+data/splits/expanded/fold_3/*
+!data/splits/expanded/fold_3/train.parquet
+!data/splits/expanded/fold_3/validation.parquet
