@@ -37,11 +37,13 @@ class AQIHistoryService:
     """
     Dashboard-facing recent-history service.
 
-    Reads the persisted live observation history and derives
-    hourly AQI values using the same AQITargetBuilder used by
-    the rest of the Pearls pipeline.
+    Ensures that live observation history exists and is
+    current before deriving hourly AQI values with the same
+    AQITargetBuilder used by the Pearls forecasting pipeline.
 
-    No external API request is performed by this service.
+    This makes the History API self-sufficient: it does not
+    depend on the Forecast or Model Insights pages being
+    requested first.
     """
 
     ALLOWED_HOURS = {
@@ -82,7 +84,8 @@ class AQIHistoryService:
             )
 
         history = (
-            self.history_service.load(
+            self.history_service
+            .ensure_current_history(
                 city
             )
         )
@@ -93,9 +96,7 @@ class AQIHistoryService:
                 f"for {city}."
             )
 
-        history = (
-            history.copy()
-        )
+        history = history.copy()
 
         history[
             "timestamp"
@@ -192,7 +193,9 @@ class AQIHistoryService:
                 ].iloc[-1]
             ),
             requested_hours=hours,
-            available_hours=len(selected),
+            available_hours=len(
+                selected
+            ),
             observations=selected,
             aqi_statistics=statistics,
         )
