@@ -32,6 +32,8 @@ class HoldoutPerformance:
 class LivePerformance:
     horizon_hours: int
     evaluated_forecasts: int
+    status: str
+    next_maturity_at: str | None
     mae: float | None
     rmse: float | None
     within_10_aqi_pct: float | None
@@ -267,6 +269,32 @@ class AQIPerformanceService:
         )
 
     @staticmethod
+    def _optional_float(
+        value,
+    ) -> float | None:
+        if value is None:
+            return None
+
+        if pd.isna(value):
+            return None
+
+        return float(value)
+
+    @staticmethod
+    def _optional_string(
+        value,
+    ) -> str | None:
+        if value is None:
+            return None
+
+        if pd.isna(value):
+            return None
+
+        text = str(value).strip()
+
+        return text or None
+
+    @staticmethod
     def _empty_live_result(
         horizon_hours: int,
     ) -> LivePerformance:
@@ -275,6 +303,10 @@ class AQIPerformanceService:
                 horizon_hours
             ),
             evaluated_forecasts=0,
+            status=(
+                "awaiting_matured_forecasts"
+            ),
+            next_maturity_at=None,
             mae=None,
             rmse=None,
             within_10_aqi_pct=None,
@@ -323,6 +355,8 @@ class AQIPerformanceService:
         required_columns = {
             "horizon_hours",
             "evaluated_forecasts",
+            "status",
+            "next_maturity_at",
             "mae",
             "rmse",
             "within_10_aqi_pct",
@@ -378,34 +412,69 @@ class AQIPerformanceService:
 
                 continue
 
+            evaluated_forecasts = int(
+                row.evaluated_forecasts
+            )
+
+            status = (
+                self._optional_string(
+                    row.status
+                )
+                or (
+                    "live_metrics_available"
+                    if evaluated_forecasts > 0
+                    else "awaiting_matured_forecasts"
+                )
+            )
+
             results.append(
                 LivePerformance(
                     horizon_hours=(
                         horizon_hours
                     ),
-                    evaluated_forecasts=int(
-                        row.evaluated_forecasts
+                    evaluated_forecasts=(
+                        evaluated_forecasts
                     ),
-                    mae=float(
-                        row.mae
+                    status=status,
+                    next_maturity_at=(
+                        self._optional_string(
+                            row.next_maturity_at
+                        )
                     ),
-                    rmse=float(
-                        row.rmse
+                    mae=(
+                        self._optional_float(
+                            row.mae
+                        )
                     ),
-                    within_10_aqi_pct=float(
-                        row.within_10_aqi_pct
+                    rmse=(
+                        self._optional_float(
+                            row.rmse
+                        )
                     ),
-                    within_20_aqi_pct=float(
-                        row.within_20_aqi_pct
+                    within_10_aqi_pct=(
+                        self._optional_float(
+                            row.within_10_aqi_pct
+                        )
                     ),
-                    within_30_aqi_pct=float(
-                        row.within_30_aqi_pct
+                    within_20_aqi_pct=(
+                        self._optional_float(
+                            row.within_20_aqi_pct
+                        )
                     ),
-                    category_accuracy_pct=float(
-                        row.category_accuracy_pct
+                    within_30_aqi_pct=(
+                        self._optional_float(
+                            row.within_30_aqi_pct
+                        )
                     ),
-                    adjacent_category_accuracy_pct=float(
-                        row.adjacent_category_accuracy_pct
+                    category_accuracy_pct=(
+                        self._optional_float(
+                            row.category_accuracy_pct
+                        )
+                    ),
+                    adjacent_category_accuracy_pct=(
+                        self._optional_float(
+                            row.adjacent_category_accuracy_pct
+                        )
                     ),
                 )
             )
@@ -446,19 +515,11 @@ class AQIPerformanceService:
             )
 
         return PerformanceResult(
-            city=(
-                city
-            ),
-            holdout=(
-                holdout
-            ),
-            live_status=(
-                live_status
-            ),
+            city=city,
+            holdout=holdout,
+            live_status=live_status,
             live_evaluated_forecasts=(
                 live_evaluated_forecasts
             ),
-            live=(
-                live
-            ),
+            live=live,
         )

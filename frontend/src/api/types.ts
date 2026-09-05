@@ -132,6 +132,10 @@ export interface HoldoutPerformance {
 export interface LivePerformance {
   horizon_hours: number
   evaluated_forecasts: number
+  status:
+    | 'awaiting_matured_forecasts'
+    | 'live_metrics_available'
+  next_maturity_at: string | null
   mae: number | null
   rmse: number | null
   within_10_aqi_pct: number | null

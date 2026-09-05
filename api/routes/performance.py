@@ -109,6 +109,10 @@ def get_performance(
                 evaluated_forecasts=(
                     item.evaluated_forecasts
                 ),
+                status=item.status,
+                next_maturity_at=(
+                    item.next_maturity_at
+                ),
                 mae=item.mae,
                 rmse=item.rmse,
                 within_10_aqi_pct=(

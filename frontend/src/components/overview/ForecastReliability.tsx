@@ -24,13 +24,17 @@ function formatPercent(
 export function ForecastReliability({
   performance,
 }: ForecastReliabilityProps) {
+  const hasLiveData =
+  performance.live.some(
+    (item) =>
+      item.evaluated_forecasts > 0,
+  )
+
   const awaitingLiveData =
-    performance.live_status ===
-      'awaiting_matured_forecasts' ||
-    performance.live_evaluated_forecasts === 0
+    !hasLiveData
 
   const preliminaryLiveData =
-    !awaitingLiveData &&
+    hasLiveData &&
     performance.live_evaluated_forecasts < 30
 
   return (
@@ -485,7 +489,7 @@ export function ForecastReliability({
                     "
                   >
                     {item.mae === null
-                      ? '—'
+                      ? 'Awaiting maturity'
                       : `MAE ${formatDecimal(
                           item.mae,
                           2,

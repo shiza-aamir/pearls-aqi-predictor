@@ -53,6 +53,12 @@ class LivePerformanceResponse(
         ge=0
     )
 
+    status: str
+
+    next_maturity_at: (
+        str | None
+    ) = None
+
     mae: float | None = None
     rmse: float | None = None
 

@@ -107,9 +107,7 @@ class ForecastMonitoringService:
                 self._resolve_ledger_path()
             )
 
-        self.ledger_path = (
-            resolved_path
-        )
+        self.ledger_path = resolved_path
 
         self.ledger_path.parent.mkdir(
             parents=True,
@@ -803,36 +801,118 @@ class ForecastMonitoringService:
     ) -> pd.DataFrame:
         ledger = self.load_ledger()
 
-        if ledger.empty:
-            return pd.DataFrame()
-
-        evaluated = ledger[
-            ledger[
-                "actual_aqi"
-            ]
-            .notna()
-        ].copy()
-
-        if city is not None:
-            evaluated = evaluated[
-                evaluated["city"]
-                .astype(str)
-                .str.casefold()
-                == str(city).casefold()
-            ]
-
-        if evaluated.empty:
-            return pd.DataFrame()
-
         rows = []
 
-        for horizon, group in (
-            evaluated.groupby(
-                "horizon_hours"
-            )
+        for horizon in (
+            24,
+            48,
+            72,
         ):
+            if ledger.empty:
+                horizon_ledger = (
+                    self._empty_ledger()
+                )
+            else:
+                horizon_ledger = (
+                    ledger[
+                        ledger[
+                            "horizon_hours"
+                        ]
+                        == horizon
+                    ].copy()
+                )
+
+            if city is not None:
+                horizon_ledger = (
+                    horizon_ledger[
+                        horizon_ledger[
+                            "city"
+                        ]
+                        .astype(str)
+                        .str.casefold()
+                        == str(city).casefold()
+                    ]
+                )
+
+            evaluated = (
+                horizon_ledger[
+                    horizon_ledger[
+                        "actual_aqi"
+                    ]
+                    .notna()
+                ].copy()
+            )
+
+            pending = (
+                horizon_ledger[
+                    horizon_ledger[
+                        "actual_aqi"
+                    ]
+                    .isna()
+                    & horizon_ledger[
+                        "target_timestamp"
+                    ]
+                    .notna()
+                ].copy()
+            )
+
+            next_maturity_at = None
+
+            if not pending.empty:
+                next_timestamp = (
+                    pending[
+                        "target_timestamp"
+                    ]
+                    .min()
+                )
+
+                if pd.notna(
+                    next_timestamp
+                ):
+                    next_maturity_at = (
+                        self
+                        ._to_utc_timestamp(
+                            next_timestamp
+                        )
+                        .isoformat()
+                    )
+
+            evaluated_forecasts = len(
+                evaluated
+            )
+
+            status = (
+                "live_metrics_available"
+                if evaluated_forecasts > 0
+                else "awaiting_matured_forecasts"
+            )
+
+            base_row = {
+                "horizon_hours": horizon,
+                "evaluated_forecasts": (
+                    evaluated_forecasts
+                ),
+                "status": status,
+                "next_maturity_at": (
+                    next_maturity_at
+                ),
+                "mae": None,
+                "rmse": None,
+                "within_10_aqi_pct": None,
+                "within_20_aqi_pct": None,
+                "within_30_aqi_pct": None,
+                "category_accuracy_pct": None,
+                "adjacent_category_accuracy_pct": None,
+            }
+
+            if evaluated.empty:
+                rows.append(
+                    base_row
+                )
+                continue
+
             errors = (
-                group[
+                evaluated[
                     "absolute_error"
                 ]
                 .astype(float)
@@ -840,7 +920,7 @@ class ForecastMonitoringService:
             )
 
             y_true = (
-                group[
+                evaluated[
                     "actual_aqi"
                 ]
                 .astype(float)
@@ -848,7 +928,7 @@ class ForecastMonitoringService:
             )
 
             y_pred = (
-                group[
+                evaluated[
                     "predicted_aqi"
                 ]
                 .astype(float)
@@ -856,7 +936,7 @@ class ForecastMonitoringService:
             )
 
             category_accuracy = (
-                group[
+                evaluated[
                     "category_correct"
                 ]
                 .astype("boolean")
@@ -864,21 +944,15 @@ class ForecastMonitoringService:
             )
 
             adjacent_accuracy = (
-                group[
+                evaluated[
                     "adjacent_category_correct"
                 ]
                 .astype("boolean")
                 .mean()
             )
 
-            rows.append(
+            base_row.update(
                 {
-                    "horizon_hours": int(
-                        horizon
-                    ),
-                    "evaluated_forecasts": (
-                        len(group)
-                    ),
                     "mae": float(
                         np.mean(
                             errors
@@ -924,14 +998,10 @@ class ForecastMonitoringService:
                 }
             )
 
-        return (
-            pd.DataFrame(
-                rows
+            rows.append(
+                base_row
             )
-            .sort_values(
-                "horizon_hours"
-            )
-            .reset_index(
-                drop=True
-            )
+
+        return pd.DataFrame(
+            rows
         )
