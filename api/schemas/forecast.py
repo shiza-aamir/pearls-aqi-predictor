@@ -79,7 +79,10 @@ class ForecastResponse(BaseModel):
                     "alert": {
                         "level": "Sensitive Group Advisory",
                         "severity": 2,
-                        "message": "Sensitive groups should reduce prolonged outdoor exertion.",
+                        "message": (
+                            "Sensitive groups should reduce prolonged "
+                            "outdoor exertion."
+                        ),
                     },
                     "pollutants": {
                         "pm2_5": 84.84,
@@ -95,8 +98,8 @@ class ForecastResponse(BaseModel):
                 "metadata": {
                     "data_source": "openweather_live",
                     "feature_count": 56,
-                    "feature_store": "Feast",
-                    "model_registry": "MLflow",
+                    "feature_store": "Feast-validated feature contract",
+                    "model_registry": "MLflow-managed model release",
                     "history_rows": 121,
                 },
             }

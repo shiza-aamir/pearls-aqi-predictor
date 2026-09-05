@@ -111,7 +111,6 @@ def normalize_city(city: str) -> str:
 
 def parse_horizon_hours(horizon: str) -> int:
     value = horizon.strip().lower()
-
     value = value.removesuffix("h")
 
     try:
@@ -221,8 +220,8 @@ def get_forecast(
             metadata=ForecastMetadataResponse(
                 data_source=result.data_source,
                 feature_count=int(result.feature_count),
-                feature_store="Feast",
-                model_registry="MLflow",
+                feature_store="Feast-validated feature contract",
+                model_registry="MLflow-managed model release",
                 history_rows=int(result.history_rows),
             ),
         )

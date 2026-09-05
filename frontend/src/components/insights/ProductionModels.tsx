@@ -47,8 +47,10 @@ export function ProductionModels({
               text-[var(--color-text-tertiary)]
             "
           >
-            Production models selected through validation 
-            and served through the MLflow registry.
+            Production models selected through
+            validation, managed in MLflow, and
+            exported as versioned champion
+            artifacts for production serving.
           </p>
         </div>
 
@@ -67,7 +69,7 @@ export function ProductionModels({
             size={13}
             strokeWidth={1.8}
           />
-          MLflow registry
+          MLflow-managed release
         </div>
       </div>
 

@@ -305,17 +305,9 @@ export function OverviewPage() {
             </p>
 
             <p>
-              {
-                forecast.metadata
-                  .feature_store
-              }{' '}
-              feature store
+              {forecast.metadata.feature_store}
               {' · '}
-              {
-                forecast.metadata
-                  .model_registry
-              }{' '}
-              registry
+              {forecast.metadata.model_registry}
             </p>
           </footer>
         </div>
