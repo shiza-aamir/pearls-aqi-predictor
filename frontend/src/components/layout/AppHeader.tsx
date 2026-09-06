@@ -68,7 +68,7 @@ export function AppHeader() {
                 lg:inline
               "
             >
-              Air Quality Intelligence
+              Air Quality Index Prediction
             </span>
           </NavLink>
 
