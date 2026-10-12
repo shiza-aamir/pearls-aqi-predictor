@@ -511,9 +511,9 @@ Faisalabad,2026-10-09 20:00:00+00:00,2026-10-11 20:00:00+00:00,48,143.2175903320
 Faisalabad,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,147.306640625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,96.0,Moderate,51.306640625,False,1.0,True,2026-10-12 00:00:00+00:00
 Faisalabad,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,149.2074432373047,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,96.0,Moderate,53.20744323730469,False,1.0,True,2026-10-12 00:00:00+00:00
 Faisalabad,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,148.55270385742188,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,93.0,Moderate,55.55270385742188,False,1.0,True,2026-10-12 00:00:00+00:00
-Faisalabad,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,149.97239685058594,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Faisalabad,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,150.8684844970703,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
-Faisalabad,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,155.5363006591797,Unhealthy,pearls-aqi-xgboost,champion-48h,,,,,,,
+Faisalabad,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,149.97239685058594,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,91.0,Moderate,58.97239685058594,False,1.0,True,2026-10-12 07:00:00+00:00
+Faisalabad,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,150.8684844970703,Unhealthy,pearls-aqi-xgboost,champion-72h,90.0,Moderate,60.86848449707031,False,2.0,False,2026-10-12 07:00:00+00:00
+Faisalabad,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,155.5363006591797,Unhealthy,pearls-aqi-xgboost,champion-48h,87.0,Moderate,68.53630065917969,False,2.0,False,2026-10-12 07:00:00+00:00
 Faisalabad,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,148.97891235351562,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Faisalabad,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,151.32907104492188,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,154.19277954101562,Unhealthy,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -526,6 +526,7 @@ Faisalabad,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,146.3459014892
 Faisalabad,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,135.46844482421875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Faisalabad,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,151.7470703125,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,150.25543212890625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Faisalabad,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,135.7657928466797,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Faisalabad,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,153.38214111328125,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,147.48507690429688,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Faisalabad,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,152.94192504882812,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -535,10 +536,12 @@ Faisalabad,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,145.1070709228
 Faisalabad,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,147.65345764160156,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,141.6623992919922,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Faisalabad,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,152.36146545410156,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
+Faisalabad,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,138.73678588867188,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Faisalabad,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,153.89759826660156,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,151.18255615234375,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,146.41757202148438,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Faisalabad,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,149.04641723632812,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Faisalabad,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,143.648193359375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,150.66500854492188,Unhealthy,pearls-aqi-xgboost,champion-24h,102.0,Unhealthy for Sensitive Groups,48.66500854492188,False,1.0,True,2026-08-31 09:00:00+00:00
 Islamabad,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,141.5136260986328,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,102.0,Unhealthy for Sensitive Groups,39.51362609863281,True,0.0,True,2026-08-31 09:00:00+00:00
 Islamabad,2026-08-30 18:00:00+00:00,2026-08-31 18:00:00+00:00,24,135.70347595214844,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,112.0,Unhealthy for Sensitive Groups,23.70347595214844,True,0.0,True,2026-08-31 18:00:00+00:00
@@ -1075,9 +1078,9 @@ Islamabad,2026-10-09 20:00:00+00:00,2026-10-11 20:00:00+00:00,48,130.20809936523
 Islamabad,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,111.316650390625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,95.0,Moderate,16.316650390625,False,1.0,True,2026-10-12 00:00:00+00:00
 Islamabad,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,135.89364624023438,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,95.0,Moderate,40.893646240234375,False,1.0,True,2026-10-12 00:00:00+00:00
 Islamabad,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,124.75057220458984,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,96.0,Moderate,28.750572204589844,False,1.0,True,2026-10-12 00:00:00+00:00
-Islamabad,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,109.71867370605467,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Islamabad,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,134.8035430908203,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
-Islamabad,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,138.26641845703125,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Islamabad,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,109.71867370605467,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,96.0,Moderate,13.718673706054672,False,1.0,True,2026-10-12 07:00:00+00:00
+Islamabad,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,134.8035430908203,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,98.0,Moderate,36.80354309082031,False,1.0,True,2026-10-12 07:00:00+00:00
+Islamabad,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,138.26641845703125,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,99.0,Moderate,39.26641845703125,False,1.0,True,2026-10-12 07:00:00+00:00
 Islamabad,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,109.10388946533205,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Islamabad,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,130.8267364501953,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,127.2504653930664,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -1090,6 +1093,7 @@ Islamabad,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,114.65267944335
 Islamabad,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,103.66276550292967,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Islamabad,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,129.50164794921875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,115.30139923095705,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Islamabad,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,105.88369750976562,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Islamabad,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,137.63760375976562,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,112.40943145751952,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Islamabad,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,127.1820068359375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -1099,10 +1103,12 @@ Islamabad,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,101.94034576416
 Islamabad,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,117.04386138916016,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,113.12013244628906,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Islamabad,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,117.96842956542967,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Islamabad,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,115.22899627685548,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Islamabad,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,113.21149444580078,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,109.20999145507812,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,107.57199096679688,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Islamabad,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,113.5124969482422,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Islamabad,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,112.8389129638672,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,69.11041259765625,Moderate,pearls-aqi-xgboost,champion-24h,60.0,Moderate,9.11041259765625,True,0.0,True,2026-08-31 09:00:00+00:00
 Karachi,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,65.24272155761719,Moderate,pearls-aqi-xgboost,champion-24h,60.0,Moderate,5.242721557617188,True,0.0,True,2026-08-31 09:00:00+00:00
 Karachi,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,71.48988342285156,Moderate,pearls-aqi-xgboost,champion-48h,62.0,Moderate,9.489883422851562,True,0.0,True,2026-09-01 09:00:00+00:00
@@ -1630,9 +1636,9 @@ Karachi,2026-10-09 20:00:00+00:00,2026-10-11 20:00:00+00:00,48,65.91948699951172
 Karachi,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,71.64749908447266,Moderate,pearls-aqi-xgboost,champion-24h,71.0,Moderate,0.6474990844726562,True,0.0,True,2026-10-12 00:00:00+00:00
 Karachi,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,71.78767395019531,Moderate,pearls-aqi-xgboost,champion-72h,71.0,Moderate,0.7876739501953125,True,0.0,True,2026-10-12 00:00:00+00:00
 Karachi,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,74.65322875976562,Moderate,pearls-aqi-xgboost,champion-48h,70.0,Moderate,4.653228759765625,True,0.0,True,2026-10-12 00:00:00+00:00
-Karachi,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,71.67028045654297,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
-Karachi,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,72.02469635009766,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
-Karachi,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,70.014404296875,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
+Karachi,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,71.67028045654297,Moderate,pearls-aqi-xgboost,champion-24h,71.0,Moderate,0.6702804565429688,True,0.0,True,2026-10-12 07:00:00+00:00
+Karachi,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,72.02469635009766,Moderate,pearls-aqi-xgboost,champion-72h,71.0,Moderate,1.0246963500976562,True,0.0,True,2026-10-12 07:00:00+00:00
+Karachi,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,70.014404296875,Moderate,pearls-aqi-xgboost,champion-48h,71.0,Moderate,0.985595703125,True,0.0,True,2026-10-12 07:00:00+00:00
 Karachi,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,69.27752685546875,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Karachi,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,74.2745132446289,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,69.56824493408203,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -1645,6 +1651,7 @@ Karachi,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,72.27057647705078
 Karachi,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,71.97251892089844,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Karachi,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,78.26551055908203,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,69.19322967529297,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
+Karachi,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,73.02735900878906,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Karachi,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,75.64033508300781,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,71.30000305175781,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
 Karachi,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,74.8386459350586,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -1654,10 +1661,12 @@ Karachi,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,65.37443542480469
 Karachi,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,77.592041015625,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,68.27558135986328,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
 Karachi,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,77.00515747070312,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
+Karachi,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,71.71146392822266,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
 Karachi,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,78.24404907226562,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,74.1621322631836,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,72.10125732421875,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Karachi,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,72.84175109863281,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
+Karachi,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,76.12845611572266,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,138.98817443847656,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,154.0,Unhealthy,15.011825561523438,False,1.0,True,2026-08-31 09:00:00+00:00
 Lahore,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,144.2523956298828,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,154.0,Unhealthy,9.747604370117188,False,1.0,True,2026-08-31 09:00:00+00:00
 Lahore,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,134.5907440185547,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,156.0,Unhealthy,21.409255981445312,False,1.0,True,2026-09-01 09:00:00+00:00
@@ -2173,9 +2182,9 @@ Lahore,2026-10-09 20:00:00+00:00,2026-10-11 20:00:00+00:00,48,141.18174743652344
 Lahore,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,144.9066925048828,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,93.0,Moderate,51.90669250488281,False,1.0,True,2026-10-12 00:00:00+00:00
 Lahore,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,154.62542724609375,Unhealthy,pearls-aqi-xgboost,champion-72h,93.0,Moderate,61.62542724609375,False,2.0,False,2026-10-12 00:00:00+00:00
 Lahore,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,151.80560302734375,Unhealthy,pearls-aqi-xgboost,champion-48h,89.0,Moderate,62.80560302734375,False,2.0,False,2026-10-12 00:00:00+00:00
-Lahore,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,143.27908325195312,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Lahore,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,153.9886932373047,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
-Lahore,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,159.47381591796875,Unhealthy,pearls-aqi-xgboost,champion-48h,,,,,,,
+Lahore,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,143.27908325195312,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,87.0,Moderate,56.279083251953125,False,1.0,True,2026-10-12 07:00:00+00:00
+Lahore,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,153.9886932373047,Unhealthy,pearls-aqi-xgboost,champion-72h,88.0,Moderate,65.98869323730469,False,2.0,False,2026-10-12 07:00:00+00:00
+Lahore,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,159.47381591796875,Unhealthy,pearls-aqi-xgboost,champion-48h,92.0,Moderate,67.47381591796875,False,2.0,False,2026-10-12 07:00:00+00:00
 Lahore,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,153.08729553222656,Unhealthy,pearls-aqi-xgboost,champion-24h,,,,,,,
 Lahore,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,150.40655517578125,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,151.83627319335938,Unhealthy,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -2188,6 +2197,7 @@ Lahore,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,145.9710693359375,
 Lahore,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,130.11544799804688,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Lahore,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,148.090576171875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,147.16610717773438,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Lahore,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,139.6523895263672,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Lahore,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,157.260986328125,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,150.23388671875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Lahore,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,147.64671325683594,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -2197,10 +2207,12 @@ Lahore,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,142.32437133789062
 Lahore,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,149.02655029296875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,138.46180725097656,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Lahore,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,149.3979949951172,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Lahore,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,142.01214599609375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Lahore,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,152.3960418701172,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,146.34950256347656,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,146.99740600585938,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Lahore,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,144.4414520263672,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Lahore,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,149.39590454101562,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,123.718994140625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,102.0,Unhealthy for Sensitive Groups,21.718994140625,True,0.0,True,2026-09-01 10:00:00+00:00
 Multan,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,110.19911193847656,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,102.0,Unhealthy for Sensitive Groups,8.199111938476562,True,0.0,True,2026-09-01 10:00:00+00:00
 Multan,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,119.17679595947266,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,105.0,Unhealthy for Sensitive Groups,14.176795959472656,True,0.0,True,2026-09-01 10:00:00+00:00
@@ -2710,9 +2722,9 @@ Multan,2026-10-09 20:00:00+00:00,2026-10-11 20:00:00+00:00,48,127.47429656982422
 Multan,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,150.84983825683594,Unhealthy,pearls-aqi-xgboost,champion-24h,85.0,Moderate,65.84983825683594,False,2.0,False,2026-10-12 00:00:00+00:00
 Multan,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,121.7957000732422,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,85.0,Moderate,36.7957000732422,False,1.0,True,2026-10-12 00:00:00+00:00
 Multan,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,132.65408325195312,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,85.0,Moderate,47.654083251953125,False,1.0,True,2026-10-12 00:00:00+00:00
-Multan,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,147.19302368164062,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Multan,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,118.73454284667967,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
-Multan,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,139.6095428466797,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Multan,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,147.19302368164062,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,82.0,Moderate,65.19302368164062,False,1.0,True,2026-10-12 07:00:00+00:00
+Multan,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,118.73454284667967,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,82.0,Moderate,36.73454284667967,False,1.0,True,2026-10-12 07:00:00+00:00
+Multan,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,139.6095428466797,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,84.0,Moderate,55.60954284667969,False,1.0,True,2026-10-12 07:00:00+00:00
 Multan,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,143.27992248535156,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Multan,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,121.53845977783205,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,129.05419921875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -2725,6 +2737,7 @@ Multan,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,139.53396606445312
 Multan,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,117.5463409423828,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Multan,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,134.20761108398438,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,141.47865295410156,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Multan,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,126.7028579711914,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Multan,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,135.06781005859375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,137.04209899902344,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Multan,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,129.6439208984375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -2734,10 +2747,12 @@ Multan,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,113.76934051513672
 Multan,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,139.1181182861328,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,111.89418029785156,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Multan,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,138.02627563476562,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Multan,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,115.57312774658205,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Multan,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,138.8228759765625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,122.19400787353516,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,124.4983367919922,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Multan,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,123.1296157836914,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Multan,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,125.37541198730467,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,152.8502197265625,Unhealthy,pearls-aqi-xgboost,champion-24h,111.0,Unhealthy for Sensitive Groups,41.8502197265625,False,1.0,True,2026-08-31 09:00:00+00:00
 Peshawar,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,147.7302703857422,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,110.0,Unhealthy for Sensitive Groups,37.73027038574219,True,0.0,True,2026-08-31 09:00:00+00:00
 Peshawar,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,129.69915771484375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,112.0,Unhealthy for Sensitive Groups,17.69915771484375,True,0.0,True,2026-09-01 10:00:00+00:00
@@ -3250,9 +3265,9 @@ Peshawar,2026-10-09 21:00:00+00:00,2026-10-11 21:00:00+00:00,48,124.581024169921
 Peshawar,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,109.64083099365234,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,95.0,Moderate,14.640830993652344,False,1.0,True,2026-10-12 00:00:00+00:00
 Peshawar,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,119.58099365234376,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,95.0,Moderate,24.580993652343764,False,1.0,True,2026-10-12 00:00:00+00:00
 Peshawar,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,118.28907775878906,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,94.0,Moderate,24.289077758789062,False,1.0,True,2026-10-12 00:00:00+00:00
-Peshawar,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,109.77664947509766,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Peshawar,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,120.8319320678711,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
-Peshawar,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,127.82794952392578,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Peshawar,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,109.77664947509766,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,95.0,Moderate,14.776649475097656,False,1.0,True,2026-10-12 07:00:00+00:00
+Peshawar,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,120.8319320678711,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,96.0,Moderate,24.831932067871094,False,1.0,True,2026-10-12 07:00:00+00:00
+Peshawar,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,127.82794952392578,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,96.0,Moderate,31.82794952392578,False,1.0,True,2026-10-12 07:00:00+00:00
 Peshawar,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,98.7252960205078,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Peshawar,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,121.23773193359376,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,132.0229034423828,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -3265,6 +3280,7 @@ Peshawar,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,113.425346374511
 Peshawar,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,98.35148620605467,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Peshawar,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,118.55413818359376,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,114.89972686767578,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Peshawar,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,101.0362777709961,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Peshawar,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,121.11478424072266,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,108.95104217529295,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Peshawar,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,122.73726654052734,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -3274,10 +3290,12 @@ Peshawar,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,104.232658386230
 Peshawar,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,115.107177734375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,103.7082748413086,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Peshawar,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,115.93408966064452,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Peshawar,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,103.26283264160156,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Peshawar,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,115.2683334350586,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,114.58477020263672,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,104.43911743164062,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Peshawar,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,110.0380630493164,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Peshawar,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,109.46636199951172,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,59.10427474975586,Moderate,pearls-aqi-xgboost,champion-24h,70.0,Moderate,10.89572525024414,True,0.0,True,2026-09-01 09:00:00+00:00
 Quetta,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,61.00667953491211,Moderate,pearls-aqi-xgboost,champion-24h,70.0,Moderate,8.99332046508789,True,0.0,True,2026-09-01 09:00:00+00:00
 Quetta,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,63.11992645263672,Moderate,pearls-aqi-xgboost,champion-48h,69.0,Moderate,5.880073547363281,True,0.0,True,2026-09-01 09:00:00+00:00
@@ -3790,9 +3808,9 @@ Quetta,2026-10-09 21:00:00+00:00,2026-10-11 21:00:00+00:00,48,68.68424987792969,
 Quetta,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,64.30171966552734,Moderate,pearls-aqi-xgboost,champion-24h,64.0,Moderate,0.3017196655273437,True,0.0,True,2026-10-12 00:00:00+00:00
 Quetta,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,66.49655151367188,Moderate,pearls-aqi-xgboost,champion-72h,64.0,Moderate,2.496551513671875,True,0.0,True,2026-10-12 00:00:00+00:00
 Quetta,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,69.43949890136719,Moderate,pearls-aqi-xgboost,champion-48h,66.0,Moderate,3.4394989013671875,True,0.0,True,2026-10-12 00:00:00+00:00
-Quetta,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,62.57159805297852,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
-Quetta,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,65.59708404541016,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
-Quetta,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,72.19451141357422,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
+Quetta,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,62.57159805297852,Moderate,pearls-aqi-xgboost,champion-24h,67.0,Moderate,4.428401947021477,True,0.0,True,2026-10-12 07:00:00+00:00
+Quetta,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,65.59708404541016,Moderate,pearls-aqi-xgboost,champion-72h,69.0,Moderate,3.402915954589844,True,0.0,True,2026-10-12 07:00:00+00:00
+Quetta,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,72.19451141357422,Moderate,pearls-aqi-xgboost,champion-48h,78.0,Moderate,5.805488586425781,True,0.0,True,2026-10-12 07:00:00+00:00
 Quetta,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,61.46157455444336,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Quetta,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,65.2879867553711,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,73.09468078613281,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -3805,6 +3823,7 @@ Quetta,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,69.70242309570312,
 Quetta,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,72.2283706665039,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Quetta,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,74.01573181152344,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,64.8280258178711,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
+Quetta,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,74.59083557128906,Moderate,pearls-aqi-xgboost,champion-24h,,,,,,,
 Quetta,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,74.52657318115234,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,58.96371078491211,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
 Quetta,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,73.86082458496094,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -3814,10 +3833,12 @@ Quetta,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,63.85939025878906,
 Quetta,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,69.2641372680664,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,65.5912857055664,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
 Quetta,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,68.74983978271484,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
+Quetta,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,75.36293029785156,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
 Quetta,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,63.13666534423828,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,60.30896759033203,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,58.69663238525391,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Quetta,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,62.13227081298828,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
+Quetta,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,70.9176254272461,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,90.74986267089844,Moderate,pearls-aqi-xgboost,champion-24h,73.0,Moderate,17.749862670898438,True,0.0,True,2026-09-01 10:00:00+00:00
 Rahim Yar Khan,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,85.87513732910156,Moderate,pearls-aqi-xgboost,champion-24h,72.0,Moderate,13.875137329101562,True,0.0,True,2026-09-01 10:00:00+00:00
 Rahim Yar Khan,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,106.9960708618164,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,70.0,Moderate,36.996070861816406,False,1.0,True,2026-09-01 10:00:00+00:00
@@ -4327,9 +4348,9 @@ Rahim Yar Khan,2026-10-09 21:00:00+00:00,2026-10-11 21:00:00+00:00,48,93.4350585
 Rahim Yar Khan,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,106.13186645507812,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,92.0,Moderate,14.131866455078123,False,1.0,True,2026-10-12 00:00:00+00:00
 Rahim Yar Khan,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,92.12713623046876,Moderate,pearls-aqi-xgboost,champion-72h,92.0,Moderate,0.1271362304687642,True,0.0,True,2026-10-12 00:00:00+00:00
 Rahim Yar Khan,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,92.916259765625,Moderate,pearls-aqi-xgboost,champion-48h,91.0,Moderate,1.916259765625,True,0.0,True,2026-10-12 00:00:00+00:00
-Rahim Yar Khan,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,108.71431732177734,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Rahim Yar Khan,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,89.47334289550781,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
-Rahim Yar Khan,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,101.68473052978516,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Rahim Yar Khan,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,108.71431732177734,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,90.0,Moderate,18.714317321777344,False,1.0,True,2026-10-12 07:00:00+00:00
+Rahim Yar Khan,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,89.47334289550781,Moderate,pearls-aqi-xgboost,champion-72h,90.0,Moderate,0.5266571044921875,True,0.0,True,2026-10-12 07:00:00+00:00
+Rahim Yar Khan,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,101.68473052978516,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,90.0,Moderate,11.684730529785156,False,1.0,True,2026-10-12 07:00:00+00:00
 Rahim Yar Khan,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,112.69976806640624,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Rahim Yar Khan,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,97.30443572998048,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,100.25099182128906,Moderate,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -4342,6 +4363,7 @@ Rahim Yar Khan,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,102.355094
 Rahim Yar Khan,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,110.13321685791016,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Rahim Yar Khan,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,97.9291000366211,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,102.43810272216795,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Rahim Yar Khan,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,104.6437530517578,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Rahim Yar Khan,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,104.7485809326172,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,105.94721221923828,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Rahim Yar Khan,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,101.01358795166016,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -4351,10 +4373,12 @@ Rahim Yar Khan,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,101.007148
 Rahim Yar Khan,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,103.69094848632812,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,103.26579284667967,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Rahim Yar Khan,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,105.607666015625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Rahim Yar Khan,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,101.56664276123048,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Rahim Yar Khan,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,107.3979721069336,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,100.43060302734376,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,99.92337036132812,Moderate,pearls-aqi-xgboost,champion-72h,,,,,,,
 Rahim Yar Khan,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,101.71025848388672,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Rahim Yar Khan,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,100.50910949707033,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-08-30 08:00:00+00:00,2026-08-31 08:00:00+00:00,24,152.69451904296875,Unhealthy,pearls-aqi-xgboost,champion-24h,153.0,Unhealthy,0.30548095703125,True,0.0,True,2026-09-01 10:00:00+00:00
 Sialkot,2026-08-30 09:00:00+00:00,2026-08-31 09:00:00+00:00,24,146.116943359375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,152.0,Unhealthy,5.883056640625,False,1.0,True,2026-09-01 10:00:00+00:00
 Sialkot,2026-08-30 08:00:00+00:00,2026-09-01 08:00:00+00:00,48,138.06112670898438,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,134.0,Unhealthy for Sensitive Groups,4.061126708984375,True,0.0,True,2026-09-01 10:00:00+00:00
@@ -4864,9 +4888,9 @@ Sialkot,2026-10-09 21:00:00+00:00,2026-10-11 21:00:00+00:00,48,156.7197723388672
 Sialkot,2026-10-10 22:00:00+00:00,2026-10-11 22:00:00+00:00,24,138.0301513671875,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,113.0,Unhealthy for Sensitive Groups,25.0301513671875,True,0.0,True,2026-10-12 00:00:00+00:00
 Sialkot,2026-10-08 22:00:00+00:00,2026-10-11 22:00:00+00:00,72,163.7065887451172,Unhealthy,pearls-aqi-xgboost,champion-72h,113.0,Unhealthy for Sensitive Groups,50.70658874511719,False,1.0,True,2026-10-12 00:00:00+00:00
 Sialkot,2026-10-10 00:00:00+00:00,2026-10-12 00:00:00+00:00,48,159.03204345703125,Unhealthy,pearls-aqi-xgboost,champion-48h,112.0,Unhealthy for Sensitive Groups,47.03204345703125,False,1.0,True,2026-10-12 00:00:00+00:00
-Sialkot,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,139.46031188964844,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
-Sialkot,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,156.8122100830078,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
-Sialkot,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,168.11624145507812,Unhealthy,pearls-aqi-xgboost,champion-48h,,,,,,,
+Sialkot,2026-10-11 01:00:00+00:00,2026-10-12 01:00:00+00:00,24,139.46031188964844,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,110.0,Unhealthy for Sensitive Groups,29.46031188964844,True,0.0,True,2026-10-12 07:00:00+00:00
+Sialkot,2026-10-09 02:00:00+00:00,2026-10-12 02:00:00+00:00,72,156.8122100830078,Unhealthy,pearls-aqi-xgboost,champion-72h,111.0,Unhealthy for Sensitive Groups,45.81221008300781,False,1.0,True,2026-10-12 07:00:00+00:00
+Sialkot,2026-10-10 07:00:00+00:00,2026-10-12 07:00:00+00:00,48,168.11624145507812,Unhealthy,pearls-aqi-xgboost,champion-48h,115.0,Unhealthy for Sensitive Groups,53.116241455078125,False,1.0,True,2026-10-12 07:00:00+00:00
 Sialkot,2026-10-11 08:00:00+00:00,2026-10-12 08:00:00+00:00,24,157.08763122558594,Unhealthy,pearls-aqi-xgboost,champion-24h,,,,,,,
 Sialkot,2026-10-09 09:00:00+00:00,2026-10-12 09:00:00+00:00,72,155.0743408203125,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-10 13:00:00+00:00,2026-10-12 13:00:00+00:00,48,150.3665313720703,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
@@ -4879,6 +4903,7 @@ Sialkot,2026-10-10 22:00:00+00:00,2026-10-12 22:00:00+00:00,48,143.3673858642578
 Sialkot,2026-10-12 00:00:00+00:00,2026-10-13 00:00:00+00:00,24,143.35389709472656,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Sialkot,2026-10-10 00:00:00+00:00,2026-10-13 00:00:00+00:00,72,155.99884033203125,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-11 01:00:00+00:00,2026-10-13 01:00:00+00:00,48,142.70811462402344,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
+Sialkot,2026-10-12 07:00:00+00:00,2026-10-13 07:00:00+00:00,24,147.41360473632812,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-24h,,,,,,,
 Sialkot,2026-10-10 07:00:00+00:00,2026-10-13 07:00:00+00:00,72,159.46595764160156,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-11 08:00:00+00:00,2026-10-13 08:00:00+00:00,48,154.25424194335938,Unhealthy,pearls-aqi-xgboost,champion-48h,,,,,,,
 Sialkot,2026-10-10 13:00:00+00:00,2026-10-13 13:00:00+00:00,72,148.08836364746094,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
@@ -4888,7 +4913,9 @@ Sialkot,2026-10-11 20:00:00+00:00,2026-10-13 20:00:00+00:00,48,148.1583099365234
 Sialkot,2026-10-10 22:00:00+00:00,2026-10-13 22:00:00+00:00,72,144.77130126953125,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-12 00:00:00+00:00,2026-10-14 00:00:00+00:00,48,149.15475463867188,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Sialkot,2026-10-11 01:00:00+00:00,2026-10-14 01:00:00+00:00,72,145.08969116210938,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Sialkot,2026-10-12 07:00:00+00:00,2026-10-14 07:00:00+00:00,48,150.46685791015625,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-48h,,,,,,,
 Sialkot,2026-10-11 08:00:00+00:00,2026-10-14 08:00:00+00:00,72,151.20594787597656,Unhealthy,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-11 15:00:00+00:00,2026-10-14 15:00:00+00:00,72,145.6909637451172,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-11 20:00:00+00:00,2026-10-14 20:00:00+00:00,72,149.8098602294922,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
 Sialkot,2026-10-12 00:00:00+00:00,2026-10-15 00:00:00+00:00,72,149.90768432617188,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
+Sialkot,2026-10-12 07:00:00+00:00,2026-10-15 07:00:00+00:00,72,147.33197021484375,Unhealthy for Sensitive Groups,pearls-aqi-xgboost,champion-72h,,,,,,,
